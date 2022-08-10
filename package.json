@@ -13,6 +13,7 @@
   "devDependencies": {
     "@babel/core": "^7.18.10",
     "@babel/preset-env": "^7.18.10",
+    "@types/wavesurfer.js": "^6.0.3",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
     "autoprefixer": "^10.4.8",
@@ -40,7 +41,10 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "pinia": "^2.0.17",
+    "reset-css": "^5.0.1",
     "vue": "^3.2.37",
-    "vue-router": "4"
+    "vue-router": "4",
+    "wavesurfer.js": "^6.2.0"
   }
 }
