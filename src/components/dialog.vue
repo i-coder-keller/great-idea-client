@@ -11,12 +11,12 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue";
-import { useMainStore } from "@/store";
+import { defineProps } from "vue"
+import { useMainStore } from "@/store"
 
 interface DialogPropsTypes {
   visible: boolean;
-  maskClose: boolean
+  maskClose: boolean;
 }
 
 const props = defineProps<DialogPropsTypes>()
@@ -46,7 +46,7 @@ const closeDialog = () => {
     height: 50%;
     min-width: 900px;
     min-height: 500px;
-    padding: 10px;
+    padding:  30px 30px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 5px 40px rgb(0 0 0 / 20%);
