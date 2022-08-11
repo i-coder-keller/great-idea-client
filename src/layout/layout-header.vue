@@ -2,13 +2,14 @@
   <header class="header-container">
     <div class="header-logo">超会编</div>
     <div class="header-group">
-      <button class="header-files">文件列表</button>
+      <button class="header-files" @click="SET_DIALOG_VISIBLE_STATUS">文件列表</button>
     </div>
   </header>
 </template>
 
 <script lang="ts" setup>
-
+import { useMainStore } from "@/store";
+const { SET_DIALOG_VISIBLE_STATUS } = useMainStore()
 </script>
 
 <style lang="less" scoped>
@@ -26,7 +27,7 @@
     height: 100%;
     width: auto;
     line-height: 60px;
-    color: #FFF;
+    color: #000;
     cursor: pointer;
   }
   .header-group {
@@ -35,10 +36,10 @@
       width: 80px;
       height: 32px;
       cursor: pointer;
-      border: 1px solid rgba(255,255,255,.3);
+      border: 1px solid #000;
       background-color: transparent;
       border-radius: 4px;
-      color: #fff;
+      color: #000;
       font-family: "Rubik","Open Sans",sans-serif;
       font-weight: 300;
       font-size: 12px;

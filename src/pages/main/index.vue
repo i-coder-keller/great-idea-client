@@ -5,29 +5,26 @@
       <div class="operating-area"></div>
     </div>
     <div class="content-bottom">
-      <div class="background-audio">
-        <div class="title">背景音乐:</div>
+      <div class="audio-container">
+        <i class="icon-bgm iconfont fontSize" />
         <div class="wave-chart">
           <AudioWaveChart />
         </div>
       </div>
-      <div class="background-audio">
-        <div class="title">配音:</div>
+      <div class="frame-container"></div>
+      <div class="audio-container">
+        <i class="icon-voice iconfont fontSize" />
         <div class="wave-chart">
-          <AudioWaveChart />
-        </div>
-      </div>
-      <div class="background-audio">
-        <div class="title">配音:</div>
-        <div class="wave-chart">
-          <AudioWaveChart />
         </div>
       </div>
     </div>
+    <FilesDialog />
   </div>
 </template>
 <script lang="ts" setup>
 import AudioWaveChart from '@/components/audio-wave-chart'
+import FilesDialog from './components/fileDialog'
+
 </script>
 <style lang="less" scoped>
 .main-container {
@@ -55,29 +52,24 @@ import AudioWaveChart from '@/components/audio-wave-chart'
     width: 100%;
     height: calc(50% - 10px);
     margin-top: 10px;
-    background-color: black;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    .background-audio {
+    .frame-container {
+      height: 100px;
       width: 100%;
-      height: 80px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    }
+    .audio-container {
+      width: 100%;
+      height: 50px;
       box-sizing: border-box;
-      flex: 1;
-      .title {
-        width: auto;
-        height: 100%;
-        color: #FFFFFF;
-        font-size: 25px;
-        display: flex;
-        align-items: center;
+      display: flex;
+      margin: 10px 0;
+      .fontSize {
+        font-size: 50px;
+        margin-right: 10px;
       }
       .wave-chart {
-        flex: 1;
         height: 100%;
+        width: 100%;
       }
     }
   }

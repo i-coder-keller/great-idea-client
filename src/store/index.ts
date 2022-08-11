@@ -1,9 +1,17 @@
 import { defineStore } from 'pinia'
 
-export const useStore = defineStore('main', {
+export const useMainStore = defineStore('main', {
   state: () => {
     return {
-      count: false
+      dialogVisible: false,
+    }
+  },
+  actions: {
+    /**
+     * 修改弹框是否展示
+     */
+    SET_DIALOG_VISIBLE_STATUS() {
+      this.dialogVisible = !this.dialogVisible
     }
   }
 })

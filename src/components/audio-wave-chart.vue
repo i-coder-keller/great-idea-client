@@ -1,6 +1,7 @@
 <template>
   <div class="wave-container">
     <div class="wave-ref" id="wave-ref"></div>
+    <div id="wave-timeline" ref="wave-timeline"></div>
   </div>
 </template>
 <script lang="ts" setup>
@@ -12,10 +13,15 @@ const data = reactive<REACTIVE>({
   waveRef: null
 })
 const initWaveSurfer = () => {
+  const parent = document.querySelector('#wave-ref') as Element
   data.waveRef = WaveSurfer.create({
     container: '#wave-ref',
-    waveColor: '#2d3436',
-    progressColor: '#fff'
+    waveColor: '#636e72',
+    progressColor: '#2d3436',
+    barHeight: parent.clientHeight / 8,
+    height: parent.clientHeight,
+    plugins: [
+    ]
   })
   data.waveRef.load(audioFile)
 }

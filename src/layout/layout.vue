@@ -13,21 +13,21 @@ import LayoutHeader from './layout-header'
 </script>
 <style lang="less" scoped>
   .layout-container {
-    max-width: 1440px;
+    max-width: 1640px;
     min-width: 1000px;
     margin: 0 auto;
     height: 100%;
-    background-color: rgba(255, 255, 255,1.0);
+    background-color: #dfe6e9;
     .layout-header {
       width: 100%;
       height: 60px;
       margin-bottom: 10px;
-      background-color: #000;
+      background-color: #dfe6e9;
     }
     .layout-content {
       width: 100%;
       height: calc(100% - 70px);
-      background-color: rgba(241, 242, 246,1.0);
+      background-color: #dfe6e9;
       padding: 10px;
       box-sizing: border-box;
     }
