@@ -1,33 +1,36 @@
 <template>
   <div class="wave-container">
-    <div class="wave-ref" id="wave-ref"></div>
-    <div id="wave-timeline" ref="wave-timeline"></div>
+    <div class="wave-ref" ref="waveRef"></div>
   </div>
 </template>
 <script lang="ts" setup>
 import WaveSurfer from 'wavesurfer.js'
 import audioFile from '@/assets/audio/test.mp3'
 import { REACTIVE } from "@/components/audio-wave-chart-types";
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
+const waveRef = ref()
 const data = reactive<REACTIVE>({
   waveRef: null
 })
 const initWaveSurfer = () => {
-  const parent = document.querySelector('#wave-ref') as Element
   data.waveRef = WaveSurfer.create({
-    container: '#wave-ref',
+    container: waveRef.value,
     waveColor: '#636e72',
     progressColor: '#2d3436',
-    barHeight: parent.clientHeight / 8,
-    height: parent.clientHeight,
-    plugins: [
-    ]
+    barHeight: waveRef.value.clientHeight / 8,
+    height: waveRef.value.clientHeight
   })
   data.waveRef.load(audioFile)
 }
 onMounted(() => {
   initWaveSurfer()
 })
+const play = () => {
+  data.waveRef.play()
+}
+const pause = () => {
+  data.waveRef.pause()
+}
 </script>
 <style lang="less" scoped>
 .wave-container {
