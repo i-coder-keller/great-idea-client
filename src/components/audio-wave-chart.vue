@@ -7,11 +7,17 @@
 import WaveSurfer from 'wavesurfer.js'
 import audioFile from '@/assets/audio/test.mp3'
 import { REACTIVE } from "@/components/audio-wave-chart-types";
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, defineExpose } from 'vue'
 const waveRef = ref()
 const data = reactive<REACTIVE>({
   waveRef: null
 })
+const play = () => {
+  data.waveRef.play()
+}
+const pause = () => {
+  data.waveRef.pause()
+}
 const initWaveSurfer = () => {
   data.waveRef = WaveSurfer.create({
     container: waveRef.value,
@@ -25,12 +31,7 @@ const initWaveSurfer = () => {
 onMounted(() => {
   initWaveSurfer()
 })
-const play = () => {
-  data.waveRef.play()
-}
-const pause = () => {
-  data.waveRef.pause()
-}
+defineExpose({ play, pause })
 </script>
 <style lang="less" scoped>
 .wave-container {

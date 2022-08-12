@@ -16,7 +16,7 @@
              @click="changeMusicPlayStatus"
         />
         <div class="wave-chart">
-          <AudioWaveChart ref="musicRef" />
+          <AudioWaveChart class="music-ref" ref="musicRef" />
         </div>
         <div class="function-footer-upload"></div>
       </div>
@@ -31,7 +31,7 @@
              @click="changeVoicePlayStatus"
         />
         <div class="wave-chart">
-          <AudioWaveChart ref="voiceRef" />
+          <AudioWaveChart class="voice-ref" ref="voiceRef" />
         </div>
         <div class="function-footer-upload"></div>
       </div>
@@ -69,9 +69,19 @@ const changeVideoPlayStatus = () => {
 }
 const changeMusicPlayStatus = () => {
   data.musicPlaying = !data.musicPlaying
+  if (data.musicPlaying) {
+    musicRef.value.play()
+  } else {
+    musicRef.value.pause()
+  }
 }
 const changeVoicePlayStatus = () => {
   data.voicePlaying = !data.voicePlaying
+  if(data.voicePlaying) {
+    voiceRef.value.play()
+  } else {
+    voiceRef.value.pause()
+  }
 }
 </script>
 <style lang="less" scoped>
