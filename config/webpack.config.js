@@ -38,7 +38,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       title: 'THREE.js',
-    }),
+    })
   ],
   resolve: {
     extensions: ['.ts', '.js', '.vue'],

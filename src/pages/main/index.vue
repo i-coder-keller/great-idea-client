@@ -47,7 +47,11 @@
         >
         </div>
         <div class="frame-image"></div>
-        <div class="function-footer-upload"></div>
+        <div class="function-footer-upload">
+          <Upload @changeFile="frameChangeFile">
+            <div class="upload-content"></div>
+          </Upload>
+        </div>
       </div>
     </div>
     <FilesDialog />
@@ -55,8 +59,10 @@
 </template>
 <script lang="ts" setup>
 import AudioWaveChart from '@/components/audio-wave-chart'
+import Upload from '@/components/upload'
 import FilesDialog from './components/fileDialog'
 import { reactive, ref } from 'vue'
+import { UploadRawFile } from 'element-plus'
 const musicRef = ref()
 const voiceRef = ref()
 const data = reactive({
@@ -82,6 +88,9 @@ const changeVoicePlayStatus = () => {
   } else {
     voiceRef.value.pause()
   }
+}
+const frameChangeFile = (file: UploadRawFile) => {
+  console.log(file)
 }
 </script>
 <style lang="less" scoped>
@@ -122,6 +131,10 @@ const changeVoicePlayStatus = () => {
       box-sizing: border-box;
       background: url("@/assets/svg/upload.svg") no-repeat center center;
       background-size: 50px 50px;
+      .upload-content {
+        width: 80px;
+        height: 80px;
+      }
     }
     .frame-container {
       height: 80px;
