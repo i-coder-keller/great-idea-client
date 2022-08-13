@@ -1,6 +1,7 @@
 <template>
   <div class="main-container">
     <h1 class="title">Good Idea for web tools</h1>
+    <h2 class="subtitle">transition、edit、create</h2>
     <div class="dotted-lined"></div>
     <div class="tools-list">
       <Function
@@ -31,6 +32,17 @@ const goPath = (path: string) => {
     font-size: clamp(38px,5vw,54px);
     font-weight: 700;
     font-family: 'Good Idea';
+  }
+  .subtitle {
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: 400;
+    padding-left: 20px;
+    padding-right: 40px;
+    display: inline-block;
+    height: 30px;
+    background: url("@/assets/svg/multimedia.svg") no-repeat center right;
+    background-size: 30px 30px;
   }
   .dotted-lined {
     margin-top: 55px;

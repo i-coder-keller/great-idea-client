@@ -1,7 +1,11 @@
 <template>
   <Teleport to="body">
     <Transition name="bounce">
-    <div class="dialog-mask" @click.self="closeDialog" v-show="visible">
+    <div
+        class="dialog-mask"
+        @click.self="closeDialog"
+        v-show="visible"
+    >
       <div class="dialog-container">
         <slot />
       </div>
@@ -22,6 +26,7 @@ const props = defineProps<DialogPropsTypes>()
 const { SET_DIALOG_VISIBLE_STATUS } = useMainStore()
 
 const closeDialog = () => {
+  console.log(123)
   if(!props.visible) return
   SET_DIALOG_VISIBLE_STATUS()
 }

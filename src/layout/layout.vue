@@ -4,7 +4,11 @@
       <LayoutHeader />
     </div>
     <div class="layout-content">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition name="slide">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </div>
     <Dialog :visible="useMain.dialogVisible"/>
   </div>
@@ -16,6 +20,7 @@ import { useMainStore } from "@/store"
 const useMain = useMainStore()
 </script>
 <style lang="less" scoped>
+@import "./router-animate";
   .layout-container {
     min-width: 1440px;
     width: 100%;

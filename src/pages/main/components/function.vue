@@ -35,6 +35,6 @@
   }
 }
 .function-container:hover {
-  background-color: #74b9ff;
+  background-color: #ffdf00;
 }
 </style>
