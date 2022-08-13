@@ -8,6 +8,10 @@ const routes = [
       {
         path: '/',
         component: () => import('@/pages/main/index.vue')
+      },
+      {
+        path: '/video-editor',
+        component: () => import('@/pages/video-editor/index.vue')
       }
     ]
   },

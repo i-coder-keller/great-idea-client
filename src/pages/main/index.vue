@@ -7,6 +7,7 @@
           v-for="item in Menus"
           :key="item.path"
           :style="{'--icon': `url('${item.icon}')`}"
+          @click="goPath(item.path)"
       />
     </div>
   </div>
@@ -14,6 +15,11 @@
 <script lang="ts" setup>
 import Function from './components/function'
 import { Menus } from './menus'
+import { useRouter } from 'vue-router'
+const router = useRouter()
+const goPath = (path: string) => {
+  router.push(path)
+}
 </script>
 <style lang="less" scoped>
 .main-container {
