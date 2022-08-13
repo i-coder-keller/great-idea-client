@@ -6,28 +6,35 @@
     <div class="layout-content">
       <router-view />
     </div>
+    <Dialog :visible="useMain.dialogVisible"/>
   </div>
 </template>
 <script lang="ts" setup>
 import LayoutHeader from './layout-header'
+import Dialog from '@/components/dialog'
+import { useMainStore } from "@/store"
+const useMain = useMainStore()
 </script>
 <style lang="less" scoped>
   .layout-container {
-    max-width: 1640px;
-    min-width: 1000px;
+    min-width: 1440px;
+    width: 100%;
     margin: 0 auto;
     height: 100%;
-    background-color: #dfe6e9;
+    min-height: 800px;
+    background-color: #FFF;
     .layout-header {
       width: 100%;
-      height: 60px;
+      box-sizing: border-box;
+      height: 50px;
+      padding: 0 30px;
       margin-bottom: 10px;
-      background-color: #dfe6e9;
+      background-color: #000;
     }
     .layout-content {
       width: 100%;
       height: calc(100% - 70px);
-      background-color: #dfe6e9;
+      background-color: #FFF;
       padding: 10px;
       box-sizing: border-box;
     }

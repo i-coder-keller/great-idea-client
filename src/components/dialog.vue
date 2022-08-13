@@ -16,14 +16,13 @@ import { useMainStore } from "@/store"
 
 interface DialogPropsTypes {
   visible: boolean;
-  maskClose: boolean;
 }
 
 const props = defineProps<DialogPropsTypes>()
 const { SET_DIALOG_VISIBLE_STATUS } = useMainStore()
 
 const closeDialog = () => {
-  if(!props.maskClose) return
+  if(!props.visible) return
   SET_DIALOG_VISIBLE_STATUS()
 }
 

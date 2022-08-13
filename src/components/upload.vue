@@ -9,11 +9,20 @@
     </ElUpload>
 </template>
 <script lang="ts" setup>
-import { ElUpload, UploadRawFile } from "element-plus"
+import { ElUpload, UploadFile } from "element-plus"
 import 'element-plus/es/components/upload/style/css'
-import { defineEmits } from "vue"
-const emit = defineEmits(['changeFile'])
-const beforeUpload = (rawFile: UploadRawFile) => {
-  emit('changeFile', rawFile)
+import { defineProps } from "vue"
+interface Props {
+  validate: (file: UploadFile) => boolean;
+  changeFile: (file: UploadFile) => void
+}
+const prop = defineProps<Props>()
+const beforeUpload = (rawFile: UploadFile) => {
+  const checked: boolean = prop.validate(rawFile)
+  if (checked) {
+    prop.changeFile(rawFile)
+  } else {
+    console.log('视频格式不对')
+  }
 }
 </script>

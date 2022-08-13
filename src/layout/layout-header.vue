@@ -1,8 +1,8 @@
 <template>
   <header class="header-container">
-    <div class="header-logo">超会编</div>
+    <div class="header-logo"/>
     <div class="header-group">
-      <button class="header-files" @click="SET_DIALOG_VISIBLE_STATUS">文件列表</button>
+      <button class="call-me" @click="SET_DIALOG_VISIBLE_STATUS">联系我</button>
     </div>
   </header>
 </template>
@@ -22,25 +22,23 @@ const { SET_DIALOG_VISIBLE_STATUS } = useMainStore()
   padding: 0 10px;
   box-sizing: border-box;
   .header-logo {
-    font-family:'jin_mei_mxplzx312d4e78bd248fe';
     font-size: 38px;
     height: 100%;
-    width: auto;
-    line-height: 60px;
-    color: #000;
-    cursor: pointer;
+    width: 50px;
+    background: url("@/assets/svg/logo.svg") no-repeat center center;
+    background-size: 100% 100%;
   }
   .header-group {
     display: flex;
-    .header-files {
-      width: 80px;
-      height: 32px;
+    .call-me {
+      width: 70px;
+      height: 26px;
       cursor: pointer;
-      border: 1px solid #000;
+      border: 1px solid #FFF;
       background-color: transparent;
       border-radius: 4px;
-      color: #000;
-      font-family: "Rubik","Open Sans",sans-serif;
+      color: #FFF;
+      font-family: 'chw1',sans-serif;
       font-weight: 300;
       font-size: 12px;
     }
