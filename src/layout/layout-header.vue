@@ -1,6 +1,6 @@
 <template>
   <header class="header-container">
-    <div class="header-logo"/>
+    <div class="header-logo" @click="goRouter"/>
     <div class="header-group">
       <button class="call-me" @click="SET_DIALOG_VISIBLE_STATUS">联系我</button>
     </div>
@@ -9,7 +9,12 @@
 
 <script lang="ts" setup>
 import { useMainStore } from "@/store";
+import { useRouter } from "vue-router";
 const { SET_DIALOG_VISIBLE_STATUS } = useMainStore()
+const router = useRouter()
+const goRouter = () => {
+  router.push('/')
+}
 </script>
 
 <style lang="less" scoped>
@@ -27,6 +32,7 @@ const { SET_DIALOG_VISIBLE_STATUS } = useMainStore()
     width: 50px;
     background: url("@/assets/svg/logo.svg") no-repeat center center;
     background-size: 100% 100%;
+    cursor: pointer;
   }
   .header-group {
     display: flex;
