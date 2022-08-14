@@ -47,6 +47,7 @@
     "mime": "^3.0.0",
     "pinia": "^2.0.17",
     "reset-css": "^5.0.1",
+    "vis-timeline": "^7.7.0",
     "vue": "^3.2.37",
     "vue-router": "4",
     "wavesurfer.js": "^6.2.0"

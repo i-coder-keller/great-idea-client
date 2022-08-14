@@ -10,26 +10,32 @@
       </div>
     </div>
     <div class="frame-area">
-      <div class="frame-images">
-        <img v-for="(img, index) in data.frames" :src="img" :key="index" />
-      </div>
+      <TimeLine
+          :duration="data.duration"
+          :frame-time="12"
+          :frames="data.frames"
+          v-if="data.showTimeline"
+      />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import {nextTick, onMounted, reactive, ref} from "vue"
-import { validateVideo } from "@/utils"
+import { reactive } from "vue"
+import { validateVideo, generateFrame } from "@/utils"
 import { UploadFile } from 'element-plus'
+import TimeLine from '@/components/timeLine/time-line'
 import Upload from '@/components/upload'
 interface DATA {
   videoUrl: string;
   duration: number;
-  frames: string[]
+  frames: string[];
+  showTimeline: boolean
 }
 const data = reactive<DATA>({
   videoUrl: '',
   duration: 0,
-  frames: []
+  frames: [],
+  showTimeline: false
 })
 const changeFile = (file: UploadFile) => {
   data.videoUrl = URL.createObjectURL(file.raw as File)
@@ -37,33 +43,20 @@ const changeFile = (file: UploadFile) => {
   video.setAttribute('src', data.videoUrl)
   video.onloadedmetadata = async () => {
     for (let s = 1; s<= video.duration; s += 12) {
-      const image = await videoInit(data.videoUrl, s) as string
+      const image = await generateFrame(data.videoUrl, s)
       data.frames.push(image)
     }
   }
+  data.showTimeline = true
 }
-const videoInit = (url:string, s: number) => {
-  const video = document.createElement('video')
-  video.setAttribute("src", url)
-  video.currentTime = s
-  return new Promise((resolve, reject) => {
-    video.addEventListener('loadeddata',() => {
-      const canvas = document.createElement('canvas');
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight
-      const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
-      ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight)
-      const image = canvas.toDataURL('image/jpeg')
-      resolve(image)
-    })
-  })
 
-}
 </script>
 <style lang="less" scoped>
 .videoEditor {
   width: 100%;
   height: 100%;
+  padding: 10px;
+  box-sizing: border-box;
   background-color: #2c3e50;
   .video-top {
     width: 100%;
@@ -101,10 +94,14 @@ const videoInit = (url:string, s: number) => {
     height: calc( 100% - 610px );
     border: 1px solid aqua;
     box-sizing: border-box;
+    padding: 5px;
     .frame-images {
       width: 100%;
       height: 50px;
       display: flex;
+      border-radius: 5px;
+
+      overflow-x: scroll;
       img {
         height: 50px;
       }
