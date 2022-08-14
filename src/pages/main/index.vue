@@ -27,6 +27,7 @@ const goPath = (path: string) => {
   width: 1660px;
   margin: auto;
   height: 100%;
+  padding-top: 30px;
   box-sizing: border-box;
   .title {
     font-size: clamp(38px,5vw,54px);

@@ -33,14 +33,11 @@ const useMain = useMainStore()
       box-sizing: border-box;
       height: 50px;
       padding: 0 30px;
-      margin-bottom: 10px;
       background-color: #000;
     }
     .layout-content {
       width: 100%;
-      height: calc(100% - 70px);
-      background-color: #FFF;
-      padding: 10px;
+      height: calc(100% - 50px);
       box-sizing: border-box;
     }
   }
