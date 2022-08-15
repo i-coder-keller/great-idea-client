@@ -43,9 +43,11 @@
     "webpack-merge": "^5.8.0"
   },
   "dependencies": {
+    "@types/pixi.js": "^5.0.0",
     "element-plus": "^2.2.13",
     "mime": "^3.0.0",
     "pinia": "^2.0.17",
+    "pixi.js": "^6.5.1",
     "reset-css": "^5.0.1",
     "vis-timeline": "^7.7.0",
     "vue": "^3.2.37",
