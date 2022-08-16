@@ -29,18 +29,19 @@ const props = defineProps<Props>()
 </script>
 <style lang="less" scoped>
 .time-line-container {
-  width: 100%;
+  width: auto;
   height: 100%;
   padding: 20px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
   .time-calibration-container {
     width: auto;
     height: 85px;
     padding: 20px 15px 0;
     box-sizing: border-box;
     display: flex;
-    position: absolute;
-    left: 0;
     .frame-item:hover .frame-time {
       color: hsla(0,0%,100%,1);
     }

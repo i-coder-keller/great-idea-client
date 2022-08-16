@@ -1,82 +1,97 @@
 <template>
-  <div class="video-ref" ref="videoRef"></div>
+  <div class="video-ref" >
+    <div class="video-proxy">
+      <video class="video-player" ref="videoRef" :src="props.videoUrl" @canplaythrough="canplaythrough" @timeupdate="timeUpdate" :key="data.n"></video>
+      <div class="canvas-proxy" >
+        <canvas id="canvasRef" ref="canvasRef"></canvas>
+      </div>
+    </div>
+  </div>
 </template>
 <script lang="ts" setup>
-import * as Pixi from 'pixi.js'
-import { defineProps, ref, reactive, watch, defineExpose} from "vue"
+import {defineProps, ref, reactive, watch, defineExpose} from "vue"
+import { fabric } from "fabric"
 const videoRef = ref()
+const canvasRef = ref()
 interface Props {
   videoUrl: string;
-  duration: number;
   setCurrentTime: (currentTime: number) => void;
   setDuration: (duration: number) => void;
 }
 interface Reactive {
-  stage: any; // 舞台
-  renderer: any; // 渲染器
-  videoTexture: any; // 视频纹理
-  videoSprite: any; // 视频精灵
-  videoSource: any; // 视频元素
-  app: any; // 画布实力
+ n: number;
+ canvas: fabric.Canvas | null;
+ rect: fabric.rect | null;
+ cWidth: number;
+ cHeight: number;
 }
 const data = reactive<Reactive>({
-  stage: null,
-  renderer: null,
-  videoTexture: null,
-  videoSprite: null,
-  videoSource: null,
-  app: null
+  n: 1,
+  canvas: null,
+  cWidth: 0,
+  cHeight: 0,
+  rect: null
 })
 const props = defineProps<Props>()
 const init = () => {
-  data.app = new Pixi.Application({
-    width: videoRef.value.clientWidth,
-    height: videoRef.value.clientHeight,
-    antialias: true
-  })
-  videoRef.value.appendChild(data.app.view)
-  data.stage = data.app.stage
-  data.renderer = data.app.renderer
-  loadVideo()
+  data.n = Math.random()
 }
 /**
- * 加载视频
+ * 初始化
  */
-const loadVideo = () => {
-  const video = document.createElement('video')
-  video.setAttribute('src', props.videoUrl)
-  data.videoTexture = Pixi.Texture.from(video)
-  data.videoSprite = new Pixi.Sprite(data.videoTexture)
-  data.videoSprite.width = videoRef.value.clientWidth
-  data.videoSprite.height = videoRef.value.clientHeight
-  data.videoSource = data.videoTexture.baseTexture.resource.source
-  data.videoSource.addEventListener('timeupdate', () => {
-    props.setCurrentTime(data.videoSource.currentTime)
+const initFabric = () => {
+  data.canvas = new fabric.Canvas('canvasRef')
+  data.canvas.backgroundColor = 'rgba(34, 47, 62,.3)'
+  data.rect = new fabric.Rect({
+    type: 'rect',
+    cornerSize: 10,
+    borderColor: '#0abde3',
+    cornerStyle: 'circle',
+    selectable: true,
+    hasControls: true,
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    selectionBackgroundColor: 'rgba(255, 255, 255, 0)',
+    left: 5,
+    top: 5,
+    width: 200,
+    height: 200,
+    fill: 'rgba(255, 255, 255, 0)'
   })
-  data.videoSource.addEventListener('canplaythrough', () => {
-    props.setDuration(data.videoSource.duration)
-    data.videoSource.pause()
-  })
-  data.stage.addChild(data.videoSprite)
+  data.canvas.add(data.rect)
+}
+/**
+ * 视频加载完毕
+ */
+const canplaythrough = () => {
+  props.setDuration(videoRef.value.duration)
+  canvasRef.value.width = videoRef.value.clientWidth + 1
+  canvasRef.value.height = videoRef.value.clientHeight
+  initFabric()
+}
+/**
+ * 播放器时间更新
+ */
+const timeUpdate = () => {
+  props.setCurrentTime(videoRef.value.currentTime)
 }
 /**
  * 设置视频当前播放进度
  * @param currentTime
  */
 const setCurrentTime = (currentTime: number) => {
-  data.videoSource.currentTime = currentTime
+  videoRef.value.currentTime = currentTime
 }
 /**
  * 播放器视频
  */
 const setVideoPlay = () => {
-  data.videoSource.play()
+  videoRef.value.play()
 }
 /**
  * 暂停视频
  */
 const setVideoPause = () => {
-  data.videoSource.pause()
+  videoRef.value.pause()
 }
 watch(() => props.videoUrl, () => {
   init()
@@ -87,5 +102,25 @@ defineExpose({setVideoPause, setVideoPlay, setCurrentTime})
 .video-ref {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  .video-proxy {
+    height: 100%;
+    width: auto;
+    position: relative;
+    .canvas-proxy {
+      width: auto;
+      height: 100%;
+      position: absolute;
+      z-index: 2000;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%);
+    }
+    .video-player {
+      height: 100%;
+    }
+  }
+
 }
 </style>
