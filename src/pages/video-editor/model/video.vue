@@ -1,15 +1,22 @@
 <template>
-  <div class="video-ref" >
+  <div class="video-ref">
     <div class="video-proxy">
-      <video class="video-player" ref="videoRef" :src="props.videoUrl" @canplaythrough="canplaythrough" @timeupdate="timeUpdate" :key="data.n"></video>
-      <div class="canvas-proxy" >
+      <video
+        class="video-player"
+        ref="videoRef"
+        :src="props.videoUrl"
+        @canplaythrough="canplaythrough"
+        @timeupdate="timeUpdate"
+        :key="data.n"
+      ></video>
+      <div class="canvas-proxy">
         <canvas id="canvasRef" ref="canvasRef"></canvas>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import {defineProps, ref, reactive, watch, defineExpose} from "vue"
+import {defineProps, ref, reactive, watch, defineExpose, nextTick} from "vue"
 import { fabric } from "fabric"
 const videoRef = ref()
 const canvasRef = ref()
@@ -51,13 +58,40 @@ const initFabric = () => {
     hasControls: true,
     backgroundColor: 'rgba(255, 255, 255, 0)',
     selectionBackgroundColor: 'rgba(255, 255, 255, 0)',
-    left: 5,
-    top: 5,
-    width: 200,
-    height: 200,
+    left: 0,
+    top: 0,
+    width: videoRef.value.clientWidth,
+    height: videoRef.value.clientHeight,
     fill: 'rgba(255, 255, 255, 0)'
   })
+  nextTick(() => {
+    data.rect.setControlsVisibility({
+      mtr: false
+    })
+  })
   data.canvas.add(data.rect)
+  data.canvas.setActiveObject(data.rect)
+  data.canvas.on('object:moving', (evt: fabric.IEvent) => disableMover(evt))
+  data.canvas.on('object:scaling', (evt: fabric.IEvent) => disableScale(evt))
+}
+const disableMover = (evt: fabric.IEvent) => {
+  const obj = evt.target as any
+  if (obj.currentHeight > obj.canvas.height || obj.currentWidth > obj.canvas.width) {
+    return
+  }
+  obj.setCoords()
+  if (obj.getBoundingRect().top < 0 || obj.getBoundingRect().left < 0) {
+    obj.top = Math.max(obj.top, obj.top - obj.getBoundingRect().top)
+    obj.left = Math.max(obj.left, obj.left - obj.getBoundingRect().left)
+  }
+  if (obj.getBoundingRect().top + obj.getBoundingRect().height > obj.canvas.height || obj.getBoundingRect().left + obj.getBoundingRect().width > obj.canvas.width) {
+    obj.top = Math.min(obj.top, obj.canvas.height - obj.getBoundingRect().height + obj.top - obj.getBoundingRect().top)
+    obj.left = Math.min(obj.left, obj.canvas.width - obj.getBoundingRect().width + obj.left - obj.getBoundingRect().left)
+  }
+}
+
+const disableScale = (evt: any) => {
+  // TODO
 }
 /**
  * 视频加载完毕
@@ -121,6 +155,5 @@ defineExpose({setVideoPause, setVideoPlay, setCurrentTime})
       height: 100%;
     }
   }
-
 }
 </style>
