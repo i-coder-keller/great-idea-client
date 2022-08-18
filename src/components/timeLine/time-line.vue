@@ -12,7 +12,7 @@
           <div class="line" />
           <div />
         </div>
-        <img :src="item.image" height="50" class="frame-image">
+        <img :src="item.image" height="50" class="frame-image" @click="changeVideoProgress(item.s)">
       </div>
     </div>
   </div>
@@ -23,6 +23,7 @@ import { Frame, dateTimeLineFormat } from "@/utils";
 
 interface Props {
   frames: Frame[];
+  changeVideoProgress: (time: number) => void
 }
 const props = defineProps<Props>()
 

@@ -26,6 +26,7 @@
     <div class="frame-area">
       <TimeLine
           :frames="data.frames"
+          :change-video-progress="changeVideoProgress"
       />
     </div>
   </div>
@@ -94,6 +95,12 @@ const setFrames = (file: Frame) => {
  */
 const setUrl = (url: string) => {
   data.videoUrl = url
+}
+/**
+ * 修改视频当前进度
+ */
+const changeVideoProgress = (time: number) => {
+  player.value.setCurrentTime(time)
 }
 defineExpose({setFrames, setUrl})
 </script>
