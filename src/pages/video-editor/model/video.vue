@@ -40,9 +40,6 @@ const data = reactive<Reactive>({
   rect: null,
 });
 const props = defineProps<Props>();
-const init = () => {
-  data.n = Math.random();
-};
 /**
  * 初始化
  */
@@ -61,7 +58,7 @@ const initFabric = () => {
     width: videoRef.value.clientWidth - 1,
     height: videoRef.value.clientHeight - 1,
     fill: "rgba(255, 255, 255, 0)",
-    minScaleLimit: 0.1,
+    minScaleLimit: 0.1
   }) as fabric.Rect;
   data.rect.setControlsVisibility({
     mtr: false,
@@ -73,7 +70,6 @@ const initFabric = () => {
 
 /**
  * 初始化画布事件
- * @param e
  */
 const initCanvasEvent = () => {
   const target = data.canvas as fabric.Canvas
