@@ -146,8 +146,15 @@ defineExpose({setFrames, setUrl})
           margin-left: 20px;
           font-size: 15px;
           color: hsla(0,0%,100%,.5);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 150px;
           .video-process-current {
+            display: inline-block;
             color: #FFFFFF;
+            flex: 1;
+            text-align: center;
           }
           .video-process-duration {
             color: hsla(0,0%,100%,.5);

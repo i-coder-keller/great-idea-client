@@ -1,7 +1,14 @@
 <template>
   <div class="video-ref">
     <div class="video-proxy">
-      <video class="videoRef" ref="videoRef" @canplaythrough="canplaythrough" @timeupdate="timeUpdate">
+      <video
+          class="videoRef"
+          ref="videoRef"
+          @canplaythrough="canplaythrough"
+          @ended="endedOrPause"
+          @pause="endedOrPause"
+          @play="startPlay"
+      >
         <source :src="videoUrl">
       </video>
     </div>
@@ -26,20 +33,20 @@ interface Reactive {
  rect: fabric.Rect | null;
  cWidth: number;
  cHeight: number;
+ timeUpdateTimer: any;
 }
 const data = reactive<Reactive>({
   n: 1,
   canvas: null,
   cWidth: 0,
   cHeight: 0,
-  rect: null
+  rect: null,
+  timeUpdateTimer: null
 })
 const props = defineProps<Props>()
-const init = () => {
-  data.n = Math.random()
-}
+
 /**
- * 初始化
+ * 初始化剪裁框
  */
 const initFabric = () => {
   data.canvas = new fabric.Canvas('canvasRef')
@@ -66,6 +73,22 @@ const initFabric = () => {
 }
 
 /**
+ * 视频播放完成或暂停
+ */
+const endedOrPause = () => {
+  clearInterval(data.timeUpdateTimer)
+}
+
+/**
+ * 视频开始播放
+ */
+const startPlay = () => {
+  data.timeUpdateTimer = setInterval(() => {
+    timeUpdate()
+  })
+}
+
+/**
  * 视频加载完毕
  */
 const canplaythrough = () => {
@@ -74,12 +97,14 @@ const canplaythrough = () => {
   canvasRef.value.height = videoRef.value.clientHeight + 10
   initFabric()
 }
+
 /**
- * 播放器时间更新
+ * 更新当前播放器时间
  */
 const timeUpdate = () => {
   props.setCurrentTime(videoRef.value.currentTime)
 }
+
 /**
  * 设置视频当前播放进度
  * @param currentTime
@@ -87,18 +112,21 @@ const timeUpdate = () => {
 const setCurrentTime = (currentTime: number) => {
   videoRef.value.currentTime = currentTime
 }
+
 /**
- * 播放器视频
+ * 播放视频
  */
 const setVideoPlay = () => {
   videoRef.value.play()
 }
+
 /**
  * 暂停视频
  */
 const setVideoPause = () => {
   videoRef.value.pause()
 }
+
 defineExpose({setVideoPause, setVideoPlay, setCurrentTime})
 </script>
 <style lang="less" scoped>
