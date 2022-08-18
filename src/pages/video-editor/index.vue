@@ -12,7 +12,8 @@ import SelectFile from './model/selectvideo'
 import VideoWork from './model/videoWork.vue'
 import {UploadFile} from "element-plus";
 import {Frame, generateFrame} from "@/utils";
-import {reactive, ref, nextTick} from "vue";
+import {reactive, ref, nextTick, onMounted} from "vue";
+import videoAssets from '@/assets/video/test.mp4'
 const videoWork = ref()
 const view = ref()
 interface Reactive {
@@ -23,11 +24,16 @@ interface Reactive {
 const data = reactive<Reactive>({
   videoUrl: '',
   frames: [],
-  showWorks: false
+  showWorks: true
 })
-const changeFile = (file: UploadFile) => {
+onMounted(() => {
+  changeFile()
+})
+const changeFile = () => {
+// const changeFile = (file: UploadFile) => {
   data.showWorks = true
-  data.videoUrl = URL.createObjectURL(file.raw as File)
+  // data.videoUrl = URL.createObjectURL(file.raw as File)
+  data.videoUrl = videoAssets
   const video = document.createElement('video')
   video.setAttribute('src', data.videoUrl)
   nextTick(() => {

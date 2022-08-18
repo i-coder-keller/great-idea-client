@@ -28,6 +28,25 @@
           :frames="data.frames"
           :change-video-progress="changeVideoProgress"
       />
+      <div class="video-controls">
+        <div class="controls-menus">
+          <div
+              v-for="menu in menus"
+              :class="[
+                  menu.className,
+                   data.selectedMenu === menu.mark ?
+                    menu.selectedClassName :
+                     menu.unselectedClassName
+                     ]"
+              :key="menu.mark"
+              @click="selectMenu(menu.mark)"
+          />
+        </div>
+        <div class="video-control-target">
+          <Speed v-if="data.selectedMenu === 'speed'" :change-speed="changeVideoSpeed"/>
+          <Volume v-if="data.selectedMenu === 'volume'" :change-volume="changeVideoVolume"/>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -35,7 +54,30 @@
 import {computed, reactive, ref} from "vue"
 import { Frame, dateTimeDuration } from "@/utils"
 import TimeLine from '@/components/timeLine/time-line.vue'
+import Speed from '@/components/solider/speed.vue'
+import Volume from '@/components/solider/volume.vue'
 import VideoRef from './video.vue'
+const menus = [
+  {
+    className: 'video-control-menus',
+    unselectedClassName: 'video-volume',
+    selectedClassName: 'video-volume-selected video-control-menus-selected',
+    mark: 'volume'
+  },
+  {
+    className: 'video-control-menus',
+    unselectedClassName: 'video-speed',
+    selectedClassName: 'video-speed-selected video-control-menus-selected',
+    mark: 'speed'
+  },
+  {
+    className: 'video-control-menus',
+    unselectedClassName: 'video-cutMark',
+    selectedClassName: 'video-cutMark-selected video-control-menus-selected',
+    mark: 'cutMark'
+  }
+]
+type Selected_Menu = 'volume' | 'cutMark' | 'speed' | null
 interface Reactive {
   videoUrl: string;
   duration: number;
@@ -44,6 +86,7 @@ interface Reactive {
   videoPlayStatus: boolean;
   videoDuration: number;
   videoCurrentTime: number;
+  selectedMenu: Selected_Menu
 }
 const player = ref()
 const data = reactive<Reactive>({
@@ -53,10 +96,34 @@ const data = reactive<Reactive>({
   showTimeline: false,
   videoPlayStatus: false,
   videoDuration: 0,
-  videoCurrentTime: 0
+  videoCurrentTime: 0,
+  selectedMenu: null
 })
 const duration = computed(() => dateTimeDuration(data.videoDuration))
 const current = computed(() => dateTimeDuration(data.videoCurrentTime))
+
+/**
+ * 调整视频倍速
+ * @param val
+ */
+const changeVideoSpeed = (val: number) => {
+  console.log(val, 'speed')
+}
+/**
+ * 调整视频音量
+ * @param val
+ */
+const changeVideoVolume = (val: number) => {
+  console.log(val, 'volume')
+}
+
+/**
+ * 切换控制器
+ * @param mark
+ */
+const selectMenu = (mark: Selected_Menu) => {
+  data.selectedMenu = mark
+}
 
 /**
  * 视频播控函数
@@ -175,7 +242,6 @@ defineExpose({setFrames, setUrl})
     width: 100%;
     height: calc( 100% - 500px );
     overflow: hidden;
-    border: 1px solid aqua;
     box-sizing: border-box;
     padding: 5px;
     display: flex;
@@ -190,6 +256,57 @@ defineExpose({setFrames, setUrl})
       overflow-x: scroll;
       img {
         height: 50px;
+      }
+    }
+    .video-controls {
+      width: 100%;
+      height: 100%;
+      .controls-menus {
+        height: 60px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .video-control-menus {
+          height: 32px;
+          width: 50px;
+          cursor: pointer;
+          margin: 0 60px;
+          box-sizing: border-box;
+          border-radius: 5px;
+          background-repeat: no-repeat;
+          background-size: 20px 20px;
+          background-position: center center;
+          background-color: rgba(0,0,0,.1);
+        }
+        .video-control-menus-selected {
+          background-color: rgba(0,0,0,.25);
+        }
+        .video-volume {
+          background-image: url("@/assets/svg/video-editor/video-volume.svg");
+        }
+        .video-volume-selected {
+          background-image: url("@/assets/svg/video-editor/video-volume-selected.svg");
+        }
+        .video-speed {
+          background-image: url("@/assets/svg/video-editor/video-speed.svg");
+        }
+        .video-speed-selected {
+          background-image: url("@/assets/svg/video-editor/video-speed-selected.svg");
+        }
+        .video-cutMark {
+          background-image: url("@/assets/svg/video-editor/video-cutMark.svg");
+        }
+        .video-cutMark-selected {
+          background-image: url("@/assets/svg/video-editor/video-cutMark-selected.svg");
+        }
+      }
+      .video-control-target {
+        height: calc(100% - 80px);
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
     }
   }

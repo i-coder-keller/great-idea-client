@@ -31,7 +31,7 @@ const props = defineProps<Props>()
 <style lang="less" scoped>
 .time-line-container {
   width: auto;
-  height: 100%;
+  height: 150px;
   padding: 20px;
   position: relative;
   display: flex;
