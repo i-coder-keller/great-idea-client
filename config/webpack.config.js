@@ -18,7 +18,7 @@ module.exports = {
       { test: /.less$/i, use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader'] },
       { test: /.css$/i, use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'] },
       { test: /\.(jpe?g|svg|png)$/, type: 'asset', generator: { filename: 'static/img/[name].[hash:6][ext]' }, parser: { dataUrlCondition: { maxSize: 10 * 1024 } } },
-      { test: /\.(tff|woff|ttf)$/, type: "asset", generator: { filename: "static/fonts/[name].[hash:6][ext]", }, parser: { dataUrlCondition: { maxSize: 8 * 1024, }, }, },
+      { test: /\.(tff|woff|otf|ttf)$/, type: "asset", generator: { filename: "static/fonts/[name].[hash:6][ext]", }, parser: { dataUrlCondition: { maxSize: 8 * 1024, }, }, },
       { test: /.vue$/i, use: ['vue-loader']},
       { test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/, type: 'asset', parser: { dataUrlCondition: { maxSize: 8 * 1024, }, }, generator: { filename: 'static/medias/[name].[contenthash][ext]'}},
     ]

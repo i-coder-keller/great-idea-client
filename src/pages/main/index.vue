@@ -24,7 +24,7 @@ const goPath = (path: string) => {
 </script>
 <style lang="less" scoped>
 .main-container {
-  width: 1660px;
+  min-width: 1440px;
   margin: auto;
   height: 100%;
   padding-top: 30px;
@@ -32,7 +32,7 @@ const goPath = (path: string) => {
   .title {
     font-size: clamp(38px,5vw,54px);
     font-weight: 700;
-    font-family: 'Good Idea';
+    font-family: 'ideaUs';
   }
   .subtitle {
     margin-top: 20px;
@@ -44,6 +44,7 @@ const goPath = (path: string) => {
     height: 30px;
     background: url("@/assets/svg/multimedia.svg") no-repeat center right;
     background-size: 30px 30px;
+    font-family: 'ideaUs';
   }
   .dotted-lined {
     margin-top: 55px;
