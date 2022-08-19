@@ -6,7 +6,6 @@
           ref="videoRef"
           @canplaythrough="canplaythrough"
           @ended="endedOrPause"
-          @pause="endedOrPause"
           @play="startPlay"
       >
         <source :src="videoUrl">
@@ -26,6 +25,7 @@ interface Props {
   videoUrl: string;
   setCurrentTime: (currentTime: number) => void;
   setDuration: (duration: number) => void;
+  setPlayStatus: (status: boolean) => void;
 }
 interface Reactive {
  n: number;
@@ -111,6 +111,7 @@ const displayMoveArea = (e: any) => {
  */
 const endedOrPause = () => {
   clearInterval(data.timeUpdateTimer)
+  props.setPlayStatus(!videoRef.value.ended)
 }
 
 /**
@@ -147,6 +148,10 @@ const timeUpdate = () => {
  */
 const setCurrentTime = (currentTime: number) => {
   videoRef.value.currentTime = currentTime;
+  clearInterval(data.timeUpdateTimer)
+  nextTick(() => {
+    startPlay()
+  })
 };
 /**
  * 播放视频
@@ -168,8 +173,14 @@ const setVideoPause = () => {
 const setVideoVolume = (volume: number) => {
   videoRef.value.volume = volume / 100
 }
+/**
+ * 设置倍速
+ */
+const setVideoSpeed = (speed: number) => {
+  videoRef.value.playbackRate = speed
+}
 
-defineExpose({setVideoPause, setVideoPlay, setCurrentTime, setVideoVolume})
+defineExpose({setVideoPause, setVideoPlay, setCurrentTime, setVideoVolume, setVideoSpeed})
 </script>
 <style lang="less" scoped>
 .video-ref {

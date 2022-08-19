@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import Upload from '@/components/upload'
+import Upload from '@/components/upload.vue'
 import {defineProps} from "vue"
 import { validateVideo } from "@/utils";
 import {UploadFile} from "element-plus"

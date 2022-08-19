@@ -8,11 +8,10 @@
 </template>
 
 <script lang="ts" setup>
-import SelectFile from './model/selectvideo'
+import SelectFile from './model/selectvideo.vue'
 import VideoWork from './model/videoWork.vue'
-import {UploadFile} from "element-plus";
 import {Frame, generateFrame} from "@/utils";
-import {reactive, ref, nextTick, onMounted} from "vue";
+import {reactive, ref, nextTick, onMounted} from "vue"
 import videoAssets from '@/assets/video/test.mp4'
 const videoWork = ref()
 const view = ref()
@@ -43,7 +42,7 @@ const changeFile = () => {
     const image = await generateFrame(data.videoUrl, 1)
     const img = new Image()
     img.src = image.image
-    img.onload = oImg => {
+    img.onload = () => {
       const poor = (50 / img.height).toFixed(3)
       const width = Number((img.width * Number(poor)).toFixed(2))
       const n = Math.floor((view.value.clientWidth - 70) / width)

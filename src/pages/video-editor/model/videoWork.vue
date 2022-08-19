@@ -7,13 +7,14 @@
               :video-url="data.videoUrl"
               :setDuration="setDuration"
               :setCurrentTime="setCurrentTime"
+              :setPlayStatus="setPlayStatus"
               ref="player"
           />
         </div>
         <div class="video-controls">
           <div
               :class="['video-base', data.videoPlayStatus ? 'video-pause' : 'video-play' ]"
-              @click="broadcastControl"
+              @click="broadcastControl(!data.videoPlayStatus)"
           />
           <div class="video-process">
             <span class="video-process-current">{{current}}</span>
@@ -44,7 +45,7 @@
         </div>
         <div class="video-control-target">
           <Speed v-if="data.selectedMenu === 'speed'" :change-speed="changeVideoSpeed"/>
-          <Volume v-if="data.selectedMenu === 'volume'" :change-volume="changeVideoVolume"/>
+          <Volume v-if="data.selectedMenu === 'volume'" :changeVolume="changeVideoVolume"/>
         </div>
       </div>
     </div>
@@ -107,7 +108,7 @@ const current = computed(() => dateTimeDuration(data.videoCurrentTime))
  * @param val
  */
 const changeVideoSpeed = (val: number) => {
-  console.log(val, 'speed')
+  player.value.setVideoSpeed(val)
 }
 /**
  * 调整视频音量
@@ -128,8 +129,8 @@ const selectMenu = (mark: Selected_Menu) => {
 /**
  * 视频播控函数
  */
-const broadcastControl = () => {
-  data.videoPlayStatus = !data.videoPlayStatus
+const broadcastControl = (status: boolean) => {
+  data.videoPlayStatus = status
   if (data.videoPlayStatus) {
     player.value.setVideoPlay()
   } else {
@@ -137,20 +138,25 @@ const broadcastControl = () => {
   }
 }
 /**
- * 设置当前播放进度
+ * 获取当前播放进度
  * @param currentTime
  */
 const setCurrentTime = (currentTime: number) => {
   data.videoCurrentTime = currentTime
 }
 /**
- * 设置总时长
+ * 获取总时长
  * @param duration
  */
 const setDuration = (duration: number) => {
   data.videoDuration = duration
 }
-
+/**
+ * 更新播放状态
+ */
+const setPlayStatus = (status: boolean) => {
+  broadcastControl(status)
+}
 /**
  * 设置帧图
  */
