@@ -46,6 +46,7 @@
         <div class="video-control-target">
           <Speed v-if="data.selectedMenu === 'speed'" :change-speed="changeVideoSpeed"/>
           <Volume v-if="data.selectedMenu === 'volume'" :changeVolume="changeVideoVolume"/>
+          <CurMarkGroup v-if="data.selectedMenu === 'cutMark'" :rmMarkerBox="rmMarkerBox" :addMarkBox="addMarkBox"/>
         </div>
       </div>
     </div>
@@ -58,6 +59,7 @@ import TimeLine from '@/components/timeLine/time-line.vue'
 import Speed from '@/components/solider/speed.vue'
 import Volume from '@/components/solider/volume.vue'
 import VideoRef from './video.vue'
+import CurMarkGroup from './cutMarkGourp'
 const menus = [
   {
     className: 'video-control-menus',
@@ -174,6 +176,18 @@ const setUrl = (url: string) => {
  */
 const changeVideoProgress = (time: number) => {
   player.value.setCurrentTime(time)
+}
+/**
+ * 删除选中的去水印框
+ */
+const rmMarkerBox = () => {
+  // TODO
+}
+/**
+ * 增加水印框
+ */
+const addMarkBox = () => {
+  // TODO
 }
 defineExpose({setFrames, setUrl})
 </script>
