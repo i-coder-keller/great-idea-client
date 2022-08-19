@@ -114,7 +114,7 @@ const changeVideoSpeed = (val: number) => {
  * @param val
  */
 const changeVideoVolume = (val: number) => {
-  console.log(val, 'volume')
+  player.value.setVideoVolume(val)
 }
 
 /**

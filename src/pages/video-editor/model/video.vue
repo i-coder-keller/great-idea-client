@@ -162,7 +162,14 @@ const setVideoPause = () => {
   videoRef.value.pause()
 }
 
-defineExpose({setVideoPause, setVideoPlay, setCurrentTime})
+/**
+ * 设置音量
+ */
+const setVideoVolume = (volume: number) => {
+  videoRef.value.volume = volume / 100
+}
+
+defineExpose({setVideoPause, setVideoPlay, setCurrentTime, setVideoVolume})
 </script>
 <style lang="less" scoped>
 .video-ref {
