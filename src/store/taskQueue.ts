@@ -15,14 +15,14 @@ export const useTaskQueue =defineStore('taskQueue', {
        * @param handle
        * @constructor
        */
-    ADD_TASK_QUEUE(handle: Handle<any>) {
+    ENQUEUE_TASK_QUEUE(handle: Handle<any>) {
       this.Queue.push(handle)
     },
     /**
        * 执行任务队列
        * @constructor
        */
-    PERFORM_TASK_QUEUE() {
+    DEQUEUE_TASK_QUEUE() {
       this.Queue.forEach(async (handle: Handle<any>) => {
         await handle()
       })
