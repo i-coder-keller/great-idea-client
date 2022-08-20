@@ -24,7 +24,8 @@ const goPath = (path: string) => {
 </script>
 <style lang="less" scoped>
 .main-container {
-  min-width: 1440px;
+  min-width: 1000px;
+  max-width: 1440px;
   margin: auto;
   height: 100%;
   padding-top: 30px;

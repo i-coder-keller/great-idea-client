@@ -17,7 +17,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { defineProps, ref, reactive, watch, defineExpose, nextTick } from "vue";
+import { defineProps, ref, reactive, defineExpose, nextTick } from "vue";
 import { fabric } from "fabric";
 const videoRef = ref();
 const canvasRef = ref();
@@ -105,6 +105,7 @@ const displayMoveArea = (e: any) => {
     target.left = Math.min(target.left, cWidth - width + target.left - left)
   }
 }
+
 
 /**
  * 视频播放完成或暂停

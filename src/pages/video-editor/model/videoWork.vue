@@ -42,6 +42,7 @@
               :key="menu.mark"
               @click="selectMenu(menu.mark)"
           />
+          <div class="video-generate" @click="generateVideo">生 成</div>
         </div>
         <div class="video-control-target">
           <Speed v-if="data.selectedMenu === 'speed'" :change-speed="changeVideoSpeed"/>
@@ -60,6 +61,10 @@ import Speed from '@/components/solider/speed.vue'
 import Volume from '@/components/solider/volume.vue'
 import VideoRef from './video.vue'
 import CurMarkGroup from './cutMarkGourp'
+import {useMainStore} from "@/store"
+import {useUserStore} from "@/store/user";
+
+const UserStore = useUserStore()
 const menus = [
   {
     className: 'video-control-menus',
@@ -104,6 +109,15 @@ const data = reactive<Reactive>({
 })
 const duration = computed(() => dateTimeDuration(data.videoDuration))
 const current = computed(() => dateTimeDuration(data.videoCurrentTime))
+
+/**
+ * 生成视频
+ */
+const generateVideo = () => {
+  if (UserStore.$state.token) {
+    // TODO 未登陆调用登陆弹框
+  }
+}
 
 /**
  * 调整视频倍速
@@ -287,6 +301,24 @@ defineExpose({setFrames, setUrl})
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
+        .video-generate {
+          position: absolute;
+          right: 50px;
+          width: 80px;
+          height: 40px;
+          border-radius: 20px;
+          line-height: 40px;
+          text-align: center;
+          cursor: pointer;
+          font-size: 14px;
+          background-color: rgba(255,255,255,.8);
+          color: rgba(0,0,0,.6);
+        }
+        .video-generate:hover {
+          background-color: rgba(255,255,255,1);
+          color: rgba(0,0,0,.8);
+        }
         .video-control-menus {
           height: 32px;
           width: 50px;
