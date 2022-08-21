@@ -11,11 +11,16 @@
       </router-view>
     </div>
     <Dialog :visible="useMain.dialogVisible"/>
+    <DonationDialog :visible="useMain.donationVisible">
+      <DonationContent />
+    </DonationDialog>
   </div>
 </template>
 <script lang="ts" setup>
-import LayoutHeader from './layout-header'
-import Dialog from '@/components/dialog'
+import LayoutHeader from './layout-header.vue'
+import Dialog from '@/components/dialog.vue'
+import DonationDialog from '@/components/donationDialog.vue'
+import DonationContent from '@/components/donation.vue'
 import { useMainStore } from "@/store"
 const useMain = useMainStore()
 </script>

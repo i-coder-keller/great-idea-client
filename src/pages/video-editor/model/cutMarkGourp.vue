@@ -1,11 +1,19 @@
 <template>
   <div class="button-group">
     <div class="button-container">
-      <div class="button-target button-add-mark">添 加</div>
+      <div class="button-target button-add-mark" @click="addRemoveMarkRect">添 加</div>
       <div class="button-target button-remove-mark">删 除</div>
     </div>
   </div>
 </template>
+<script lang="ts" setup>
+import { defineProps } from "vue"
+interface Props {
+  addRemoveMarkRect: () => void;
+  rmMarkerBox: () => void;
+}
+defineProps<Props>()
+</script>
 <style lang="less" scoped>
 .button-group {
   width: 100%;

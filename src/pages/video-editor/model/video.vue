@@ -34,6 +34,7 @@ interface Reactive {
  cWidth: number;
  cHeight: number;
  timeUpdateTimer: any;
+ removeMarkRect: fabric.Rect[]
 }
 const data = reactive<Reactive>({
   n: 1,
@@ -41,7 +42,8 @@ const data = reactive<Reactive>({
   cWidth: 0,
   cHeight: 0,
   rect: null,
-  timeUpdateTimer: null
+  timeUpdateTimer: null,
+  removeMarkRect: []
 })
 const props = defineProps<Props>()
 
@@ -63,6 +65,8 @@ const initFabric = () => {
     width: videoRef.value.clientWidth - 1,
     height: videoRef.value.clientHeight - 1,
     fill: "rgba(255, 255, 255, 0)",
+    stroke: '#0984e3',
+    strokeWidth: 1,
     minScaleLimit: 0.1
   }) as fabric.Rect;
   data.rect.setControlsVisibility({
@@ -71,6 +75,38 @@ const initFabric = () => {
   data.canvas.add(data.rect);
   data.canvas.setActiveObject(data.rect);
   initCanvasEvent()
+}
+
+/**
+ * 增加去水印区域
+ */
+const addRemoveMarkRect = () => {
+  const container = data.canvas as fabric.Canvas
+  const parent = data.rect as fabric.Rect
+  const currentRect = new fabric.Rect({
+    type: "rect",
+    cornerSize: 8,
+    borderColor: "#0984e3",
+    cornerStyle: "circle",
+    cornerColor: "#55efc4",
+    hasControls: true,
+    backgroundColor: "rgba(0, 0, 0, .3)",
+    left: parent.left,
+    top: parent.top,
+    width: 50,
+    height: 20,
+    fill: "rgba(255, 255, 255, 0)",
+    stroke: '#0984e3',
+    strokeWidth: 1,
+    minScaleLimit: 0.1
+  })
+  currentRect.setControlsVisibility({
+    mtr: false,
+  });
+  currentRect.bringToFront()
+  container.add(currentRect);
+  container.setActiveObject(currentRect);
+  data.removeMarkRect.push(currentRect)
 }
 
 /**
@@ -106,7 +142,15 @@ const displayMoveArea = (e: any) => {
   }
 }
 
-
+/**
+ * 视频裁剪框禁止选中
+ */
+const videoCutRectSelectable = (status: boolean) => {
+  data.rect.set('selectable', status)
+  if (!status) {
+    data.canvas.discardActiveObject()
+  }
+}
 /**
  * 视频播放完成或暂停
  */
@@ -181,7 +225,15 @@ const setVideoSpeed = (speed: number) => {
   videoRef.value.playbackRate = speed
 }
 
-defineExpose({setVideoPause, setVideoPlay, setCurrentTime, setVideoVolume, setVideoSpeed})
+defineExpose({
+  setVideoPause,
+  setVideoPlay,
+  setCurrentTime,
+  setVideoVolume,
+  setVideoSpeed,
+  addRemoveMarkRect,
+  videoCutRectSelectable
+})
 </script>
 <style lang="less" scoped>
 .video-ref {

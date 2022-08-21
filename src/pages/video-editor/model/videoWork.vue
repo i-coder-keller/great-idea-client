@@ -47,7 +47,7 @@
         <div class="video-control-target">
           <Speed v-if="data.selectedMenu === 'speed'" :change-speed="changeVideoSpeed"/>
           <Volume v-if="data.selectedMenu === 'volume'" :changeVolume="changeVideoVolume"/>
-          <CurMarkGroup v-if="data.selectedMenu === 'cutMark'" :rmMarkerBox="rmMarkerBox" :addMarkBox="addMarkBox"/>
+          <CurMarkGroup v-if="data.selectedMenu === 'cutMark'" :rmMarkerBox="rmMarkerBox" :addRemoveMarkRect="addRemoveMarkRect"/>
         </div>
       </div>
     </div>
@@ -63,8 +63,11 @@ import VideoRef from './video.vue'
 import CurMarkGroup from './cutMarkGourp'
 import {useMainStore} from "@/store"
 import {useUserStore} from "@/store/user";
+import { useTaskQueue } from '@/store/taskQueue'
 
 const UserStore = useUserStore()
+const { ENQUEUE_TASK_QUEUE, DEQUEUE_TASK_QUEUE } = useTaskQueue()
+const { SET_DONATION_VISIBLE_STATUS } = useMainStore()
 const menus = [
   {
     className: 'video-control-menus',
@@ -114,9 +117,21 @@ const current = computed(() => dateTimeDuration(data.videoCurrentTime))
  * 生成视频
  */
 const generateVideo = () => {
-  if (UserStore.$state.token) {
+  if (!UserStore.$state.token) {
     // TODO 未登陆调用登陆弹框
+    ENQUEUE_TASK_QUEUE(donationDialog)
+  } else {
+    ENQUEUE_TASK_QUEUE(donationDialog)
   }
+  setTimeout(() => {
+    DEQUEUE_TASK_QUEUE()
+  })
+}
+
+const donationDialog = () => {
+  setTimeout(() => {
+    SET_DONATION_VISIBLE_STATUS()
+  }, 3000)
 }
 
 /**
@@ -140,6 +155,12 @@ const changeVideoVolume = (val: number) => {
  */
 const selectMenu = (mark: Selected_Menu) => {
   data.selectedMenu = mark
+  if (mark === 'cutMark') {
+    // TODO 禁止选中用视频裁剪
+    player.value.videoCutRectSelectable(false)
+  } else {
+    player.value.videoCutRectSelectable(true)
+  }
 }
 
 /**
@@ -200,10 +221,14 @@ const rmMarkerBox = () => {
 /**
  * 增加水印框
  */
-const addMarkBox = () => {
-  // TODO
+const addRemoveMarkRect = () => {
+  console.log('增加')
+  player.value.addRemoveMarkRect()
 }
-defineExpose({setFrames, setUrl})
+defineExpose({
+  setFrames,
+  setUrl
+})
 </script>
 <style lang="less" scoped>
 .videoEditor {
