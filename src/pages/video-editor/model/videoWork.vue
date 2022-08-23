@@ -339,6 +339,7 @@ defineExpose({
           font-size: 14px;
           background-color: rgba(255,255,255,.8);
           color: rgba(0,0,0,.6);
+          font-family: 'Round-zh',serif;
         }
         .video-generate:hover {
           background-color: rgba(255,255,255,1);

@@ -32,6 +32,7 @@
     font-size: 15px;
     white-space: pre-line;
     font-weight: 600;
+    font-family: 'Round-zh',serif;
   }
 }
 .function-container:hover {

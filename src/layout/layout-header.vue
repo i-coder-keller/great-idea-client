@@ -44,7 +44,7 @@ const goRouter = () => {
       background-color: transparent;
       border-radius: 4px;
       color: #FFF;
-      font-family: 'chw1',sans-serif;
+      font-family: 'Round-zh',serif;
       font-weight: 300;
       font-size: 12px;
     }

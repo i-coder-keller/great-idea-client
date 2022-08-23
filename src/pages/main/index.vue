@@ -33,7 +33,7 @@ const goPath = (path: string) => {
   .title {
     font-size: clamp(38px,5vw,54px);
     font-weight: 700;
-    font-family: 'ideaUs';
+    font-family: 'Aqum-US',serif;
   }
   .subtitle {
     margin-top: 20px;
@@ -45,7 +45,7 @@ const goPath = (path: string) => {
     height: 30px;
     background: url("@/assets/svg/multimedia.svg") no-repeat center right;
     background-size: 30px 30px;
-    font-family: 'ideaUs';
+    font-family: 'Aqum-US',serif;
   }
   .dotted-lined {
     margin-top: 55px;

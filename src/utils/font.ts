@@ -1,6 +1,6 @@
 /**
  * 加载字体
- * @param key
+ * @param fontFamily
  * @param arrayBuffer
  * @returns {Promise<void>}
  */
