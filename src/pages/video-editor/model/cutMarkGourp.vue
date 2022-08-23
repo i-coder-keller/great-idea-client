@@ -1,7 +1,7 @@
 <template>
   <div class="button-group">
     <div class="button-container">
-      <div class="button-target button-add-mark" @click="addRemoveMarkRect">添 加</div>
+      <div class="button-target button-add-mark">添 加</div>
       <div class="button-target button-remove-mark">删 除</div>
     </div>
   </div>

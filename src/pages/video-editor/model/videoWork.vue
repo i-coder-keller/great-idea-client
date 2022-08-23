@@ -47,7 +47,7 @@
         <div class="video-control-target">
           <Speed v-if="data.selectedMenu === 'speed'" :change-speed="changeVideoSpeed"/>
           <Volume v-if="data.selectedMenu === 'volume'" :changeVolume="changeVideoVolume"/>
-          <CurMarkGroup v-if="data.selectedMenu === 'cutMark'" :rmMarkerBox="rmMarkerBox" :addRemoveMarkRect="addRemoveMarkRect"/>
+          <CurMarkGroup v-if="data.selectedMenu === 'cutMark'" />
         </div>
       </div>
     </div>
@@ -211,19 +211,6 @@ const setUrl = (url: string) => {
  */
 const changeVideoProgress = (time: number) => {
   player.value.setCurrentTime(time)
-}
-/**
- * 删除选中的去水印框
- */
-const rmMarkerBox = () => {
-  // TODO
-}
-/**
- * 增加水印框
- */
-const addRemoveMarkRect = () => {
-  console.log('增加')
-  player.value.addRemoveMarkRect()
 }
 defineExpose({
   setFrames,

@@ -19,6 +19,8 @@
 <script lang="ts" setup>
 import { defineProps, ref, reactive, defineExpose, nextTick } from "vue";
 import { fabric } from "fabric";
+import { factoryRect } from "@/utils/fabricUtils";
+
 const videoRef = ref();
 const canvasRef = ref();
 interface Props {
@@ -34,7 +36,14 @@ interface Reactive {
  cWidth: number;
  cHeight: number;
  timeUpdateTimer: any;
- removeMarkRect: fabric.Rect[]
+ removeMarkRect: fabric.Rect[];
+ pointer: PointerPosition;
+}
+interface PointerPosition {
+  startX: number;
+  startY: number;
+  endX: number;
+  endY: number;
 }
 const data = reactive<Reactive>({
   n: 1,
@@ -43,7 +52,13 @@ const data = reactive<Reactive>({
   cHeight: 0,
   rect: null,
   timeUpdateTimer: null,
-  removeMarkRect: []
+  removeMarkRect: [],
+  pointer: {
+    startY: 0,
+    startX: 0,
+    endX: 0,
+    endY: 0
+  },
 })
 const props = defineProps<Props>()
 
@@ -78,44 +93,51 @@ const initFabric = () => {
 }
 
 /**
- * 增加去水印区域
- */
-const addRemoveMarkRect = () => {
-  const container = data.canvas as fabric.Canvas
-  const parent = data.rect as fabric.Rect
-  const currentRect = new fabric.Rect({
-    type: "rect",
-    cornerSize: 8,
-    borderColor: "#0984e3",
-    cornerStyle: "circle",
-    cornerColor: "#55efc4",
-    hasControls: true,
-    backgroundColor: "rgba(0, 0, 0, .3)",
-    left: parent.left,
-    top: parent.top,
-    width: 50,
-    height: 20,
-    fill: "rgba(255, 255, 255, 0)",
-    stroke: '#0984e3',
-    strokeWidth: 1,
-    minScaleLimit: 0.1
-  })
-  currentRect.setControlsVisibility({
-    mtr: false,
-  });
-  currentRect.bringToFront()
-  container.add(currentRect);
-  container.setActiveObject(currentRect);
-  data.removeMarkRect.push(currentRect)
-}
-
-/**
  * 初始化画布事件
  */
 const initCanvasEvent = () => {
   const target = data.canvas as fabric.Canvas
   target.on("object:moving", e => displayMoveArea(e));
+  mouseCreateRemoveMark()
 }
+
+/**
+ * 鼠标拖拽创建去水印框
+ */
+const mouseCreateRemoveMark = () => {
+  const target = data.canvas
+  target.on("mouse:down", function ({ pointer: downPointer}) {
+    data.pointer.startY = downPointer.y
+    data.pointer.startX = downPointer.x
+    target.on("mouse:move", function ({ pointer: endPointer }) {
+      data.pointer.endY = endPointer.y
+      data.pointer.endX = endPointer.x
+    })
+  })
+  target.on("mouse:up", function () {
+    const rect = factoryRect({
+      left: data.pointer.startX,
+      top: data.pointer.startY,
+      width: data.pointer.endX - data.pointer.startX,
+      height: data.pointer.endY = data.pointer.startY
+    })
+    data.removeMarkRect.push(rect)
+    data.canvas.add(rect)
+    data.canvas.setActiveObject(rect)
+    data.pointer = {
+      startY: 0,
+      startX: 0,
+      endX: 0,
+      endY: 0
+    }
+  })
+}
+
+
+
+
+
+
 
 /**
  * 限制剪裁拖动区域
@@ -231,7 +253,6 @@ defineExpose({
   setCurrentTime,
   setVideoVolume,
   setVideoSpeed,
-  addRemoveMarkRect,
   videoCutRectSelectable
 })
 </script>
