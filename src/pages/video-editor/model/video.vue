@@ -147,21 +147,21 @@ const mouseUpCreateFabricRect = () => {
 }
 
 
-
-
+/**
+ * 限制剪裁框缩放超出
+ * @param e
+ */
 const displayScalingArea = (e: any) => {
   const padding = 5
   const target = e.target
   target.setCoords()
   const { left, top, height, width } = target.getBoundingRect()
   const {width: canvasWidth, height: canvasHeight} = target.canvas
-  console.log(`left：${left}===top：${top}===height：${height}===width：${width}`)
   const targetX = left + width
   const targetY = top + height
   const maxX = canvasWidth - padding
   const maxY = canvasHeight - padding
   if (targetX > maxX || targetY > maxY) {
-    console.log('超出')
     target.scaleY = Math.min(1, width/(canvasWidth - padding * 2) )
     target.scaleX = Math.min(1, height/(canvasHeight - padding * 2) )
   }
