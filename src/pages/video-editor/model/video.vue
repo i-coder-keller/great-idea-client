@@ -17,7 +17,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { defineProps, ref, reactive, defineExpose, nextTick } from "vue";
+import { defineProps, ref, reactive, defineExpose, nextTick, onBeforeUnmount } from "vue";
 import { fabric } from "fabric";
 import { factoryRect } from "@/utils/fabricUtils";
 
@@ -61,6 +61,10 @@ const data = reactive<Reactive>({
   },
 })
 const props = defineProps<Props>()
+onBeforeUnmount(() => {
+  disposeWindowEvent()
+})
+
 
 /**
  * 初始化剪裁框
@@ -91,7 +95,27 @@ const initFabric = () => {
   data.canvas.setActiveObject(data.rect);
   initCanvasEvent()
 }
-
+/**
+ * 初始化全局事件
+ */
+const initWindowEvent = () => {
+  window.addEventListener('keydown', initDrawRemoveMarkRect)
+  window.addEventListener('keyup', disposeDrawRemoveMarkRect)
+}
+const initDrawRemoveMarkRect = (e: { shiftKey: any }) => {
+  if (e.shiftKey) {
+    mouseCreateRemoveMark()
+  }
+}
+const disposeDrawRemoveMarkRect = (e: { key: string; }) => {
+  if (e.key === 'Shift') {
+    data.canvas.off("mouse:up", mouseUpCreateFabricRect)
+  }
+}
+const disposeWindowEvent = () => {
+  window.removeEventListener('keydown', initDrawRemoveMarkRect)
+  window.removeEventListener('keyup', disposeDrawRemoveMarkRect)
+}
 /**
  * 初始化画布事件
  */
@@ -99,11 +123,10 @@ const initCanvasEvent = () => {
   const target = data.canvas as fabric.Canvas
   target.on("object:moving", e => displayMoveArea(e))
   target.on("object:scaling",e => displayScalingArea(e))
-  // mouseCreateRemoveMark()
 }
 
 /**
- * 鼠标拖拽创建去水印框
+ * 允许鼠标拖拽创建去水印框
  */
 const mouseCreateRemoveMark = () => {
   data.pointer = {
@@ -143,10 +166,7 @@ const mouseUpCreateFabricRect = () => {
   });
   data.removeMarkRect.push(markRect)
   data.canvas.add(markRect)
-  data.canvas.off("mouse:up", mouseUpCreateFabricRect)
 }
-
-
 /**
  * 限制剪裁框缩放超出
  * @param e
@@ -198,9 +218,7 @@ const displayMoveArea = (e: any) => {
  */
 const videoCutRectSelectable = (status: boolean) => {
   data.rect.set('selectable', status)
-  if (!status) {
-    data.canvas.discardActiveObject()
-  }
+  data.canvas.discardActiveObject()
 }
 /**
  * 视频播放完成或暂停
@@ -209,7 +227,6 @@ const endedOrPause = () => {
   clearInterval(data.timeUpdateTimer)
   props.setPlayStatus(!videoRef.value.ended)
 }
-
 /**
  * 视频开始播放
  */
@@ -218,7 +235,6 @@ const startPlay = () => {
     timeUpdate()
   })
 }
-
 /**
  * 视频加载完毕
  */
@@ -228,16 +244,12 @@ const canplaythrough = () => {
   canvasRef.value.height = videoRef.value.clientHeight + 10;
   initFabric();
 };
-
-
 /**
  * 更新当前播放器时间
  */
 const timeUpdate = () => {
   props.setCurrentTime(videoRef.value.currentTime);
 };
-
-
 /**
  * 设置视频当前播放进度
  * @param currentTime
@@ -255,14 +267,12 @@ const setCurrentTime = (currentTime: number) => {
 const setVideoPlay = () => {
   videoRef.value.play()
 }
-
 /**
  * 暂停视频
  */
 const setVideoPause = () => {
   videoRef.value.pause()
 }
-
 /**
  * 设置音量
  */
@@ -282,7 +292,8 @@ defineExpose({
   setCurrentTime,
   setVideoVolume,
   setVideoSpeed,
-  videoCutRectSelectable
+  videoCutRectSelectable,
+  initWindowEvent
 })
 </script>
 <style lang="less" scoped>

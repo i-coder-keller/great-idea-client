@@ -62,33 +62,9 @@ import Volume from '@/components/solider/volume.vue'
 import VideoRef from './video.vue'
 import CurMarkGroup from './cutMarkGourp'
 import {useMainStore} from "@/store"
-import {useUserStore} from "@/store/user";
-import { useTaskQueue } from '@/store/taskQueue'
+import {useUserStore} from "@/store/user"
+import { menus, Selected_Menu } from "./Menus"
 
-const UserStore = useUserStore()
-const { ENQUEUE_TASK_QUEUE, DEQUEUE_TASK_QUEUE } = useTaskQueue()
-const { SET_DONATION_VISIBLE_STATUS } = useMainStore()
-const menus = [
-  {
-    className: 'video-control-menus',
-    unselectedClassName: 'video-volume',
-    selectedClassName: 'video-volume-selected video-control-menus-selected',
-    mark: 'volume'
-  },
-  {
-    className: 'video-control-menus',
-    unselectedClassName: 'video-speed',
-    selectedClassName: 'video-speed-selected video-control-menus-selected',
-    mark: 'speed'
-  },
-  {
-    className: 'video-control-menus',
-    unselectedClassName: 'video-cutMark',
-    selectedClassName: 'video-cutMark-selected video-control-menus-selected',
-    mark: 'cutMark'
-  }
-]
-type Selected_Menu = 'volume' | 'cutMark' | 'speed' | null
 interface Reactive {
   videoUrl: string;
   duration: number;
@@ -99,6 +75,8 @@ interface Reactive {
   videoCurrentTime: number;
   selectedMenu: Selected_Menu
 }
+const UserStore = useUserStore()
+const { SET_DONATION_VISIBLE_STATUS } = useMainStore()
 const player = ref()
 const data = reactive<Reactive>({
   videoUrl: '',
@@ -119,13 +97,7 @@ const current = computed(() => dateTimeDuration(data.videoCurrentTime))
 const generateVideo = () => {
   if (!UserStore.$state.token) {
     // TODO 未登陆调用登陆弹框
-    ENQUEUE_TASK_QUEUE(donationDialog)
-  } else {
-    ENQUEUE_TASK_QUEUE(donationDialog)
   }
-  setTimeout(() => {
-    DEQUEUE_TASK_QUEUE()
-  })
 }
 
 const donationDialog = () => {
@@ -148,7 +120,6 @@ const changeVideoSpeed = (val: number) => {
 const changeVideoVolume = (val: number) => {
   player.value.setVideoVolume(val)
 }
-
 /**
  * 切换控制器
  * @param mark
@@ -156,8 +127,8 @@ const changeVideoVolume = (val: number) => {
 const selectMenu = (mark: Selected_Menu) => {
   data.selectedMenu = mark
   if (mark === 'cutMark') {
-    // TODO 禁止选中用视频裁剪
     player.value.videoCutRectSelectable(false)
+    player.value.initWindowEvent()
   } else {
     player.value.videoCutRectSelectable(true)
   }

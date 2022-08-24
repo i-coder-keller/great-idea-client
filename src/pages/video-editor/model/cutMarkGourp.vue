@@ -7,12 +7,12 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { defineProps } from "vue"
-interface Props {
-  addRemoveMarkRect: () => void;
-  rmMarkerBox: () => void;
-}
-defineProps<Props>()
+// import { defineProps } from "vue"
+// interface Props {
+//   addRemoveMarkRect: () => void;
+//   deleteRemoveMarkRect: () => void;
+// }
+// defineProps<Props>()
 </script>
 <style lang="less" scoped>
 .button-group {
