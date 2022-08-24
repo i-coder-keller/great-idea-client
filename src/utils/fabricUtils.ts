@@ -1,10 +1,14 @@
 import { fabric } from "fabric";
 
-interface Rect {
+export interface Rect {
   left: number
   top: number
   width: number
   height: number
+  borderColor: string
+  backgroundColor: string
+  fill: string
+  cornerColor: string
 }
 export const factoryRect = (args: Rect) => new fabric.Rect({
   type: "rect",

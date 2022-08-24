@@ -83,7 +83,7 @@ const initFabric = () => {
     stroke: '#0984e3',
     strokeWidth: 1,
     minScaleLimit: 0.1
-  }) as fabric.Rect;
+  })
   data.rect.setControlsVisibility({
     mtr: false,
   });
@@ -105,6 +105,12 @@ const initCanvasEvent = () => {
  * 鼠标拖拽创建去水印框
  */
 const mouseCreateRemoveMark = () => {
+  data.pointer = {
+    startY: 0,
+    startX: 0,
+    endX: 0,
+    endY: 0
+  }
   const target = data.canvas
   target.on("mouse:down", function ({ pointer: downPointer}) {
     data.pointer.startY = downPointer.y
@@ -114,23 +120,29 @@ const mouseCreateRemoveMark = () => {
       data.pointer.endX = endPointer.x
     })
   })
-  target.on("mouse:up", function () {
-    const rect = factoryRect({
-      left: data.pointer.startX,
-      top: data.pointer.startY,
-      width: data.pointer.endX - data.pointer.startX,
-      height: data.pointer.endY = data.pointer.startY
-    })
-    data.removeMarkRect.push(rect)
-    data.canvas.add(rect)
-    data.canvas.setActiveObject(rect)
-    data.pointer = {
-      startY: 0,
-      startX: 0,
-      endX: 0,
-      endY: 0
-    }
+  target.on("mouse:up", mouseUpCreateFabricRect)
+}
+
+/**
+ * 创建矩形
+ */
+const mouseUpCreateFabricRect = () => {
+  const markRect = factoryRect({
+    left: data.pointer.startX,
+    top: data.pointer.startY,
+    width: data.pointer.endX - data.pointer.startX,
+    height: data.pointer.endY - data.pointer.startY,
+    backgroundColor: "rgba(0, 0, 0, .3)",
+    cornerColor: "#55efc4",
+    borderColor: "#0984e3",
+    fill: "rgba(255, 255, 255, 0)",
   })
+  markRect.setControlsVisibility({
+    mtr: false,
+  });
+  data.removeMarkRect.push(markRect)
+  data.canvas.add(markRect)
+  data.canvas.off("mouse:up", mouseUpCreateFabricRect)
 }
 
 
