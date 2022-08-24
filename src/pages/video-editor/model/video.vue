@@ -97,8 +97,9 @@ const initFabric = () => {
  */
 const initCanvasEvent = () => {
   const target = data.canvas as fabric.Canvas
-  target.on("object:moving", e => displayMoveArea(e));
-  mouseCreateRemoveMark()
+  target.on("object:moving", e => displayMoveArea(e))
+  target.on("object:scaling",e => displayScalingArea(e))
+  // mouseCreateRemoveMark()
 }
 
 /**
@@ -148,7 +149,23 @@ const mouseUpCreateFabricRect = () => {
 
 
 
-
+const displayScalingArea = (e: any) => {
+  const padding = 5
+  const target = e.target
+  target.setCoords()
+  const { left, top, height, width } = target.getBoundingRect()
+  const {width: canvasWidth, height: canvasHeight} = target.canvas
+  console.log(`left：${left}===top：${top}===height：${height}===width：${width}`)
+  const targetX = left + width
+  const targetY = top + height
+  const maxX = canvasWidth - padding
+  const maxY = canvasHeight - padding
+  if (targetX > maxX || targetY > maxY) {
+    console.log('超出')
+    target.scaleY = Math.min(1, width/(canvasWidth - padding * 2) )
+    target.scaleX = Math.min(1, height/(canvasHeight - padding * 2) )
+  }
+}
 
 
 /**
