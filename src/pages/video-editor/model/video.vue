@@ -18,8 +18,8 @@
 </template>
 <script lang="ts" setup>
 import { defineProps, ref, reactive, defineExpose, nextTick, onBeforeUnmount } from "vue";
-import { fabric } from "fabric";
-import { factoryRect } from "@/utils/fabricUtils";
+import { fabric } from "fabric"
+import { factoryRect } from "@/utils/fabricUtils"
 
 const videoRef = ref();
 const canvasRef = ref();
@@ -162,10 +162,13 @@ const mouseUpCreateFabricRect = () => {
     backgroundColor: "rgba(0, 0, 0, .3)",
     cornerColor: "#55efc4",
     borderColor: "#0984e3",
-    fill: "rgba(255, 255, 255, 0)",
+    fill: "rgba(255, 255, 255, 0)"
   }))
   markRect.value.setControlsVisibility({
     mtr: false,
+    tl: false,
+    tr: false,
+    bl: false
   });
   markRect.value.bringToFront()
   data.removeMarkRect.push(markRect.value)
