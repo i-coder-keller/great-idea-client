@@ -218,7 +218,7 @@ const displayMoveArea = (e: any) => {
  */
 const videoCutRectSelectable = (status: boolean) => {
   data.rect.set('selectable', status)
-  data.canvas.discardActiveObject()
+  data.canvas.discardActiveObject().renderAll()
 }
 /**
  * 视频播放完成或暂停
@@ -293,7 +293,8 @@ defineExpose({
   setVideoVolume,
   setVideoSpeed,
   videoCutRectSelectable,
-  initWindowEvent
+  initWindowEvent,
+  disposeWindowEvent
 })
 </script>
 <style lang="less" scoped>

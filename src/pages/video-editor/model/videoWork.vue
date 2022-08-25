@@ -131,6 +131,7 @@ const selectMenu = (mark: Selected_Menu) => {
     player.value.initWindowEvent()
   } else {
     player.value.videoCutRectSelectable(true)
+    player.value.disposeWindowEvent()
   }
 }
 
