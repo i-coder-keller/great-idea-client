@@ -24,6 +24,7 @@ export const factoryRect = (args: Rect) => new fabric.Rect({
   height: args.height,
   fill: "rgba(255, 255, 255, 0)",
   stroke: '#0984e3',
+  lockScalingFlip: true,
   strokeWidth: 1,
   minScaleLimit: 0.1
 })

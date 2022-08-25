@@ -70,7 +70,9 @@ onBeforeUnmount(() => {
  * 初始化剪裁框
  */
 const initFabric = () => {
-  data.canvas = new fabric.Canvas("canvasRef");
+  data.canvas = new fabric.Canvas("canvasRef", {
+    preserveObjectStacking: true
+  });
   data.rect = new fabric.Rect({
     type: "rect",
     cornerSize: 10,
@@ -84,6 +86,7 @@ const initFabric = () => {
     width: videoRef.value.clientWidth - 1,
     height: videoRef.value.clientHeight - 1,
     fill: "rgba(255, 255, 255, 0)",
+    lockScalingFlip: true,
     stroke: '#0984e3',
     strokeWidth: 1,
     minScaleLimit: 0.1
@@ -151,7 +154,7 @@ const mouseCreateRemoveMark = () => {
  * 创建矩形
  */
 const mouseUpCreateFabricRect = () => {
-  const markRect = factoryRect({
+  const markRect = ref(factoryRect({
     left: data.pointer.startX,
     top: data.pointer.startY,
     width: data.pointer.endX - data.pointer.startX,
@@ -160,12 +163,13 @@ const mouseUpCreateFabricRect = () => {
     cornerColor: "#55efc4",
     borderColor: "#0984e3",
     fill: "rgba(255, 255, 255, 0)",
-  })
-  markRect.setControlsVisibility({
+  }))
+  markRect.value.setControlsVisibility({
     mtr: false,
   });
-  data.removeMarkRect.push(markRect)
-  data.canvas.add(markRect)
+  markRect.value.bringToFront()
+  data.removeMarkRect.push(markRect.value)
+  data.canvas.add(markRect.value)
 }
 /**
  * 限制剪裁框缩放超出
@@ -218,6 +222,12 @@ const displayMoveArea = (e: any) => {
  */
 const videoCutRectSelectable = (status: boolean) => {
   data.rect.set('selectable', status)
+  discardObject()
+}
+/**
+ * 丢弃所有选中对象
+ */
+const discardObject = () => {
   data.canvas.discardActiveObject().renderAll()
 }
 /**
@@ -294,7 +304,8 @@ defineExpose({
   setVideoSpeed,
   videoCutRectSelectable,
   initWindowEvent,
-  disposeWindowEvent
+  disposeWindowEvent,
+  discardObject
 })
 </script>
 <style lang="less" scoped>
