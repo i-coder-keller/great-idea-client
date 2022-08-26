@@ -27,7 +27,7 @@ const useMain = useMainStore()
 <style lang="less" scoped>
 @import "./router-animate";
   .layout-container {
-    min-width: 1440px;
+    min-width: 1200px;
     width: 100%;
     margin: 0 auto;
     height: 100%;

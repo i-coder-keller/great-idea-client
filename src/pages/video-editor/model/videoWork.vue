@@ -338,6 +338,24 @@ defineExpose({
         .video-cutMark-selected {
           background-image: url("@/assets/svg/video-editor/video-cutMark-selected.svg");
         }
+        .video-text {
+          background-image: url("@/assets/svg/video-editor/video-text.svg");
+        }
+        .video-text-selected {
+          background-image: url("@/assets/svg/video-editor/video-text-selected.svg");
+        }
+        .video-image {
+          background-image: url("@/assets/svg/video-editor/video-image.svg");
+        }
+        .video-image-selected {
+          background-image: url("@/assets/svg/video-editor/video-image-selected.svg");
+        }
+        .video-voice {
+          background-image: url("@/assets/svg/video-editor/video-voice.svg");
+        }
+        .video-voice-selected {
+          background-image: url("@/assets/svg/video-editor/video-voice-selected.svg");
+        }
       }
       .video-control-target {
         height: calc(100% - 80px);

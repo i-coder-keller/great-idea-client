@@ -93,6 +93,11 @@ const initFabric = () => {
   })
   data.rect.setControlsVisibility({
     mtr: false,
+    bl: false,
+    tl: false,
+    mt: false,
+    ml: false,
+    tr: false
   });
   data.canvas.add(data.rect);
   data.canvas.setActiveObject(data.rect);
@@ -125,7 +130,7 @@ const disposeWindowEvent = () => {
 const initCanvasEvent = () => {
   const target = data.canvas as fabric.Canvas
   target.on("object:moving", e => displayMoveArea(e))
-  target.on("object:scaling",e => displayScalingArea(e))
+  // target.on("object:scaling",e => displayScalingArea(e))
 }
 
 /**
