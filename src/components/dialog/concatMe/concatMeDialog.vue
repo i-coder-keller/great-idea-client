@@ -4,7 +4,7 @@
     <div
         class="dialog-mask"
         @click.self="closeDialog"
-        v-show="visible"
+        v-show="useDialog.concatMeVisible"
     >
       <div class="dialog-container ss">
         <slot/>
@@ -15,19 +15,11 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue"
-import { useMainStore } from "@/store"
-
-interface DialogPropsTypes {
-  visible: boolean;
-}
-
-const props = defineProps<DialogPropsTypes>()
-const { SET_DONATION_VISIBLE_STATUS } = useMainStore()
+import { useDialogStore } from "@/store/dialog"
+const useDialog = useDialogStore()
 
 const closeDialog = () => {
-  if(!props.visible) return
-  SET_DONATION_VISIBLE_STATUS()
+  useDialog.SET_CONCAT_ME_VISIBLE_STATUS()
 }
 
 </script>
@@ -46,9 +38,9 @@ const closeDialog = () => {
   z-index: 2022;
   .dialog-container {
     width: 60%;
-    height: 50%;
-    min-width: 900px;
-    min-height: 500px;
+    height: auto;
+    min-width: 200px;
+    min-height: 200px;
     padding:  30px 30px;
     background-color: #fff;
     border-radius: 8px;

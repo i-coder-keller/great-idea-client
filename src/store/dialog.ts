@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia'
 
-export const useMainStore = defineStore('main', {
+export const useDialogStore = defineStore('main', {
   state: () => {
     return {
       dialogVisible: false,
-      donationVisible: false
+      donationVisible: false,
+      concatMeVisible: false
     }
   },
   actions: {
@@ -20,6 +21,14 @@ export const useMainStore = defineStore('main', {
      */
     SET_DONATION_VISIBLE_STATUS() {
       this.donationVisible = !this.donationVisible
+    },
+    /**
+     * 联系我弹框控制
+     * @constructor
+     */
+    SET_CONCAT_ME_VISIBLE_STATUS() {
+      console.log('联系我')
+      this.concatMeVisible = !this.concatMeVisible
     }
   }
 })

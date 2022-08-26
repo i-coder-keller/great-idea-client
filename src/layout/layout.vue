@@ -10,19 +10,22 @@
         </transition>
       </router-view>
     </div>
-    <Dialog :visible="useMain.dialogVisible"/>
-    <DonationDialog :visible="useMain.donationVisible">
+    <Dialog />
+    <DonationDialog>
       <DonationContent />
     </DonationDialog>
+    <ConcatMeDialog >
+      <ConcatMeCOntent />
+    </ConcatMeDialog>
   </div>
 </template>
 <script lang="ts" setup>
 import LayoutHeader from './layout-header.vue'
-import Dialog from '@/components/dialog.vue'
-import DonationDialog from '@/components/donationDialog.vue'
-import DonationContent from '@/components/donation.vue'
-import { useMainStore } from "@/store"
-const useMain = useMainStore()
+import Dialog from '@/components/dialog/dialog.vue'
+import DonationDialog from '@/components/dialog/donation/donationDialog.vue'
+import DonationContent from '@/components/dialog/donation/donation.vue'
+import ConcatMeDialog from '@/components/dialog/concatMe/concatMeDialog.vue'
+import ConcatMeCOntent from '@/components/dialog/concatMe/concatMe'
 </script>
 <style lang="less" scoped>
 @import "./router-animate";

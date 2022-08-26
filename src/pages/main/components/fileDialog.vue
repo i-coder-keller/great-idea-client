@@ -4,8 +4,8 @@
   </Dialog>
 </template>
 <script lang="ts" setup>
-import Dialog from '@/components/dialog'
-import { useMainStore } from "@/store"
+import Dialog from '@/components/dialog/dialog.vue'
+import { useMainStore } from "@/store/dialog"
 const useMain = useMainStore()
 </script>
 <style lang="less" scoped>

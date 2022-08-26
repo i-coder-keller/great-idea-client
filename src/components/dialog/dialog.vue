@@ -4,7 +4,7 @@
     <div
         class="dialog-mask"
         @click.self="closeDialog"
-        v-show="visible"
+        v-show="Dialog.visible"
     >
       <div class="dialog-container">
         <slot />
@@ -15,20 +15,11 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue"
-import { useMainStore } from "@/store"
-
-interface DialogPropsTypes {
-  visible: boolean;
-}
-
-const props = defineProps<DialogPropsTypes>()
-const { SET_DIALOG_VISIBLE_STATUS } = useMainStore()
+import { useDialogStore } from "@/store/dialog"
+const Dialog = useDialogStore()
 
 const closeDialog = () => {
-  console.log(123)
-  if(!props.visible) return
-  SET_DIALOG_VISIBLE_STATUS()
+  Dialog.SET_DIALOG_VISIBLE_STATUS()
 }
 
 </script>

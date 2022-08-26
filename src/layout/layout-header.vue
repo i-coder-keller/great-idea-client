@@ -2,15 +2,15 @@
   <header class="header-container">
     <div class="header-logo" @click="goRouter"/>
     <div class="header-group">
-      <button class="call-me" @click="SET_DIALOG_VISIBLE_STATUS">联系我</button>
+      <button class="better-button" @click="useDialog.SET_CONCAT_ME_VISIBLE_STATUS">联 系 我</button>
     </div>
   </header>
 </template>
 
 <script lang="ts" setup>
-import { useMainStore } from "@/store";
+import { useDialogStore } from "@/store/dialog";
 import { useRouter } from "vue-router";
-const { SET_DIALOG_VISIBLE_STATUS } = useMainStore()
+const useDialog = useDialogStore()
 const router = useRouter()
 const goRouter = () => {
   router.push('/')
@@ -36,7 +36,8 @@ const goRouter = () => {
   }
   .header-group {
     display: flex;
-    .call-me {
+    justify-content: space-around;
+    .better-button {
       width: 70px;
       height: 26px;
       cursor: pointer;
@@ -47,6 +48,7 @@ const goRouter = () => {
       font-family: 'Round-zh',serif;
       font-weight: 300;
       font-size: 12px;
+      margin: 0 10px;
     }
   }
 }

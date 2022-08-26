@@ -62,8 +62,8 @@ import Speed from '@/components/solider/speed.vue'
 import Volume from '@/components/solider/volume.vue'
 import VideoRef from './video.vue'
 import CurMarkGroup from './cutMarkGourp'
-import {useMainStore} from "@/store"
-import {useUserStore} from "@/store/user"
+import { useDialogStore } from "@/store/dialog"
+import { useUserStore } from "@/store/user"
 import { menus, Selected_Menu } from "./Menus"
 
 interface Reactive {
@@ -77,7 +77,7 @@ interface Reactive {
   selectedMenu: Selected_Menu
 }
 const UserStore = useUserStore()
-const { SET_DONATION_VISIBLE_STATUS } = useMainStore()
+const useDialog = useDialogStore()
 const player = ref()
 const data = reactive<Reactive>({
   videoUrl: '',
@@ -101,11 +101,11 @@ const generateVideo = () => {
   }
 }
 
-const donationDialog = () => {
-  setTimeout(() => {
-    SET_DONATION_VISIBLE_STATUS()
-  }, 3000)
-}
+// const donationDialog = () => {
+//   setTimeout(() => {
+//     useDialog.SET_DONATION_VISIBLE_STATUS()
+//   }, 3000)
+// }
 
 /**
  * 调整视频倍速
