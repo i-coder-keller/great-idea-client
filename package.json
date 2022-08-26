@@ -46,6 +46,7 @@
   "dependencies": {
     "element-plus": "^2.2.13",
     "fabric": "^5.2.1",
+    "hint.css": "^2.7.0",
     "mime": "^3.0.0",
     "pinia": "^2.0.17",
     "reset-css": "^5.0.1",

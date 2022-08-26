@@ -40,6 +40,7 @@
                      menu.unselectedClassName
                      ]"
               :key="menu.mark"
+              :aria-label="menu.ariaLabel"
               @click="selectMenu(menu.mark)"
           />
           <div class="video-generate" @click="generateVideo">生 成</div>
@@ -86,7 +87,7 @@ const data = reactive<Reactive>({
   videoPlayStatus: false,
   videoDuration: 0,
   videoCurrentTime: 0,
-  selectedMenu: null
+  selectedMenu: 'volume'
 })
 const duration = computed(() => dateTimeDuration(data.videoDuration))
 const current = computed(() => dateTimeDuration(data.videoCurrentTime))
