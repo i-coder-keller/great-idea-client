@@ -20,6 +20,7 @@
 import { defineProps, ref, reactive, defineExpose, nextTick, onBeforeUnmount } from "vue";
 import { fabric } from "fabric"
 import { factoryRect } from "@/utils/fabricUtils"
+import { Selected_Menu } from "./Menus"
 
 const videoRef = ref();
 const canvasRef = ref();
@@ -230,7 +231,6 @@ const displayMoveArea = (e: any) => {
  */
 const videoCutRectSelectable = (status: boolean) => {
   data.rect.set('selectable', status)
-  discardObject()
 }
 /**
  * 丢弃所有选中对象

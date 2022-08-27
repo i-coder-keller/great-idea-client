@@ -43,7 +43,6 @@
               :aria-label="menu.ariaLabel"
               @click="selectMenu(menu.mark)"
           />
-          <div class="video-generate" @click="generateVideo">生 成</div>
         </div>
         <div class="video-control-target">
           <Speed v-if="data.selectedMenu === 'speed'" :change-speed="changeVideoSpeed"/>
@@ -77,7 +76,6 @@ interface Reactive {
   selectedMenu: Selected_Menu
 }
 const UserStore = useUserStore()
-const useDialog = useDialogStore()
 const player = ref()
 const data = reactive<Reactive>({
   videoUrl: '',
@@ -127,14 +125,6 @@ const changeVideoVolume = (val: number) => {
  */
 const selectMenu = (mark: Selected_Menu) => {
   data.selectedMenu = mark
-  if (mark === 'cutMark') {
-    player.value.videoCutRectSelectable(false)
-    player.value.initWindowEvent()
-  } else {
-    player.value.videoCutRectSelectable(true)
-    player.value.disposeWindowEvent()
-    player.value.discardObject()
-  }
 }
 
 /**
