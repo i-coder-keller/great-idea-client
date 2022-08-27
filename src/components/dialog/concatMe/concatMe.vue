@@ -37,6 +37,7 @@
       font-size: 30px;
       color: #000000;
       font-family: 'Round-zh',serif;
+      line-height: 30px;
     }
     .better-concat-weChatQRCode{
       width: 200px;

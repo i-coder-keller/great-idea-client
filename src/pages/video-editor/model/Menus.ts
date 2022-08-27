@@ -15,10 +15,17 @@ const menus = [
   },
   {
     className: 'video-control-menus hint--top hint--rounded',
-    unselectedClassName: 'video-cutMark',
-    selectedClassName: 'video-cutMark-selected video-control-menus-selected',
+    unselectedClassName: 'video-cut',
+    selectedClassName: 'video-cut-selected video-control-menus-selected',
+    mark: 'cutVideo',
+    ariaLabel: '视频裁剪'
+  },
+  {
+    className: 'video-control-menus hint--top hint--rounded',
+    unselectedClassName: 'video-cut-mark',
+    selectedClassName: 'video-cut-mark-selected video-control-menus-selected',
     mark: 'cutMark',
-    ariaLabel: '去除水印'
+    ariaLabel: '水印裁剪'
   },
   {
     className: 'video-control-menus hint--top hint--rounded',

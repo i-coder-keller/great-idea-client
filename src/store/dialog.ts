@@ -27,7 +27,6 @@ export const useDialogStore = defineStore('main', {
      * @constructor
      */
     SET_CONCAT_ME_VISIBLE_STATUS() {
-      console.log('联系我')
       this.concatMeVisible = !this.concatMeVisible
     }
   }

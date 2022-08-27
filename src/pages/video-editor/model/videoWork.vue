@@ -333,11 +333,17 @@ defineExpose({
         .video-speed-selected {
           background-image: url("@/assets/svg/video-editor/video-speed-selected.svg");
         }
-        .video-cutMark {
-          background-image: url("@/assets/svg/video-editor/video-cutMark.svg");
+        .video-cut-mark {
+          background-image: url("@/assets/svg/video-editor/video-cut-mark.svg");
         }
-        .video-cutMark-selected {
-          background-image: url("@/assets/svg/video-editor/video-cutMark-selected.svg");
+        .video-cut-mark-selected {
+          background-image: url("@/assets/svg/video-editor/video-cut-mark-selected.svg");
+        }
+        .video-cut {
+          background-image: url("@/assets/svg/video-editor/video-cut.svg");
+        }
+        .video-cut-selected {
+          background-image: url("@/assets/svg/video-editor/video-cut-selected.svg");
         }
         .video-text {
           background-image: url("@/assets/svg/video-editor/video-text.svg");
