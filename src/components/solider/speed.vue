@@ -74,9 +74,8 @@ onMounted(() => {
 <style lang="less" scoped>
 .video-speed{
   width: 100%;
-  height: 160px;
+  height: 100%;
   border-radius: 5px;
-  background-color: rgba(0,0,0,.25);
   display: flex;
   align-items: center;
   justify-content: center;

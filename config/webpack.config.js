@@ -5,7 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 const EslintWebpackPlugin = require('eslint-webpack-plugin')
 module.exports = {
-  entry: './src/dialog.ts',
+  entry: './src/index.ts',
   output: {
     path: resolve(__dirname, '../dist'),
     filename: 'static/js/[name].[hash:8].js',

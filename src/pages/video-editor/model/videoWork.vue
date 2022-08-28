@@ -48,6 +48,7 @@
           <Speed v-if="data.selectedMenu === 'speed'" :change-speed="changeVideoSpeed"/>
           <Volume v-if="data.selectedMenu === 'volume'" :changeVolume="changeVideoVolume"/>
           <CurMarkGroup v-if="data.selectedMenu === 'cutMark'" />
+          <VoiceRecorder v-if="data.selectedMenu === 'voice'" />
         </div>
       </div>
     </div>
@@ -61,7 +62,7 @@ import Speed from '@/components/solider/speed.vue'
 import Volume from '@/components/solider/volume.vue'
 import VideoRef from './video.vue'
 import CurMarkGroup from './cutMarkGourp'
-import { useDialogStore } from "@/store/dialog"
+import VoiceRecorder from '@/components/voice-recorder/voice-recorder'
 import { useUserStore } from "@/store/user"
 import { menus, Selected_Menu } from "./Menus"
 
@@ -125,6 +126,22 @@ const changeVideoVolume = (val: number) => {
  */
 const selectMenu = (mark: Selected_Menu) => {
   data.selectedMenu = mark
+  player.value.discardObject()
+  player.value.disposeCurMarkEvent()
+  player.value.disposeTextEvent()
+  player.value.videoCutRectSelectable(false)
+  player.value.videoCutMarkStatus(false)
+  switch (mark) {
+  case "cutVideo":
+    player.value.videoCutRectSelectable(true)
+    break
+  case "cutMark":
+    player.value.videoCutMarkStatus(true)
+    player.value.initCutMarkEvent()
+    break
+  case "text":
+    player.value.initAddText()
+  }
 }
 
 /**
@@ -355,11 +372,13 @@ defineExpose({
         }
       }
       .video-control-target {
-        height: calc(100% - 80px);
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
+        height: 160px;
+        border-radius: 5px;
+        background-color: rgba(0,0,0,.25);
       }
     }
   }

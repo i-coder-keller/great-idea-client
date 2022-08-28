@@ -17,10 +17,9 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { defineProps, ref, reactive, defineExpose, nextTick, onBeforeUnmount } from "vue";
+import { ref, reactive, defineExpose, nextTick } from "vue";
 import { fabric } from "fabric"
 import { factoryRect } from "@/utils/fabricUtils"
-import { Selected_Menu } from "./Menus"
 
 const videoRef = ref();
 const canvasRef = ref();
@@ -32,12 +31,14 @@ interface Props {
 }
 interface Reactive {
  n: number;
- canvas: fabric.Canvas | null;
- rect: fabric.Rect | null;
+ canvas: fabric.Canvas;
+ rect: fabric.Rect;
  cWidth: number;
  cHeight: number;
  timeUpdateTimer: any;
  removeMarkRect: fabric.Rect[];
+ textRect: fabric.Text[];
+ activeTextId: string;
  pointer: PointerPosition;
 }
 interface PointerPosition {
@@ -54,6 +55,8 @@ const data = reactive<Reactive>({
   rect: null,
   timeUpdateTimer: null,
   removeMarkRect: [],
+  textRect: [],
+  activeTextId: '',
   pointer: {
     startY: 0,
     startX: 0,
@@ -62,9 +65,6 @@ const data = reactive<Reactive>({
   },
 })
 const props = defineProps<Props>()
-onBeforeUnmount(() => {
-  disposeWindowEvent()
-})
 
 
 /**
@@ -100,14 +100,14 @@ const initFabric = () => {
     ml: false,
     tr: false
   });
+  data.rect.selectable = false
   data.canvas.add(data.rect);
-  data.canvas.setActiveObject(data.rect);
   initCanvasEvent()
 }
 /**
- * 初始化全局事件
+ * 初始化去除水印事件
  */
-const initWindowEvent = () => {
+const initCutMarkEvent = () => {
   window.addEventListener('keydown', initDrawRemoveMarkRect)
   window.addEventListener('keyup', disposeDrawRemoveMarkRect)
 }
@@ -121,7 +121,10 @@ const disposeDrawRemoveMarkRect = (e: { key: string; }) => {
     data.canvas.off("mouse:up", mouseUpCreateFabricRect)
   }
 }
-const disposeWindowEvent = () => {
+/**
+ * 销毁去水印框添加事件
+ */
+const disposeCurMarkEvent = () => {
   window.removeEventListener('keydown', initDrawRemoveMarkRect)
   window.removeEventListener('keyup', disposeDrawRemoveMarkRect)
 }
@@ -168,7 +171,7 @@ const mouseUpCreateFabricRect = () => {
     backgroundColor: "rgba(0, 0, 0, .3)",
     cornerColor: "#55efc4",
     borderColor: "#0984e3",
-    fill: "rgba(255, 255, 255, 0)"
+    fill: "rgba(255, 255, 255, 0)",
   }))
   markRect.value.setControlsVisibility({
     mtr: false,
@@ -227,16 +230,93 @@ const displayMoveArea = (e: any) => {
 }
 
 /**
- * 视频裁剪框禁止选中
+ * 视频裁剪框选中状态
  */
 const videoCutRectSelectable = (status: boolean) => {
   data.rect.set('selectable', status)
+  if (status) {
+    data.canvas.setActiveObject(data.rect)
+    data.canvas.renderAll()
+  }
+}
+/**
+ * 视频裁剪水印框选中状态
+ */
+const videoCutMarkStatus = (status: boolean) => {
+  if (status) {
+    if (data.removeMarkRect.length > 0) {
+      data.removeMarkRect[0].set('selectable', status)
+    }
+  } else {
+    for (let i = 0; i < data.removeMarkRect.length; i++) {
+      data.removeMarkRect[i].set('selectable', status)
+    }
+  }
 }
 /**
  * 丢弃所有选中对象
  */
 const discardObject = () => {
   data.canvas.discardActiveObject().renderAll()
+}
+
+/**
+ * 初始化文字
+ */
+const initAddText = () => {
+  window.addEventListener('keydown', mouseDownTextEvent)
+  window.addEventListener('keyup', e => {
+    if (e.key === 'Shift') {
+      data.canvas.off('mouse:down', createText)
+    }
+  })
+}
+/**
+ * 销毁文字监听事件
+ */
+const disposeTextEvent = () => {
+  window.removeEventListener('keydown', mouseDownTextEvent)
+}
+/**
+ * 文字按下SHIFT事件回调
+ */
+const mouseDownTextEvent = (e: { shiftKey: any; }) => {
+  if (e.shiftKey) {
+    initFabricText()
+  }
+}
+/**
+ * Fabric点击事件添加文字
+ */
+const initFabricText = () => {
+  data.canvas.on('mouse:down', createText)
+}
+const createText = (e: any) => {
+  const pointer = e.pointer
+  const text = ref(new fabric.Text('默认文字',{
+    left: pointer.x,
+    top: pointer.y,
+    angle: 0,
+    fontSize: 30,
+    fill: '#000',
+    lockUniScaling: true,
+    cornerColor: "#55efc4",
+    borderColor: "#0984e3",
+    cornerSize: 10,
+    cornerStyle: 'circle'
+  }))
+  text.value.setControlsVisibility({
+    mtr: false,
+    tl: false,
+    tr: true,
+    bl: false,
+    ml: false,
+    mr: false,
+    mt: false,
+    mb: false
+  });
+  console.log(text.value)
+  data.canvas.add(text.value)
 }
 /**
  * 视频播放完成或暂停
@@ -311,8 +391,11 @@ defineExpose({
   setVideoVolume,
   setVideoSpeed,
   videoCutRectSelectable,
-  initWindowEvent,
-  disposeWindowEvent,
+  initCutMarkEvent,
+  disposeCurMarkEvent,
+  videoCutMarkStatus,
+  initAddText,
+  disposeTextEvent,
   discardObject
 })
 </script>

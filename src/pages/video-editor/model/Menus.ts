@@ -13,13 +13,13 @@ const menus = [
     mark: 'speed',
     ariaLabel: '播放速度'
   },
-  // {
-  //   className: 'video-control-menus hint--top hint--rounded',
-  //   unselectedClassName: 'video-cut',
-  //   selectedClassName: 'video-cut-selected video-control-menus-selected',
-  //   mark: 'cutVideo',
-  //   ariaLabel: '视频裁剪'
-  // },
+  {
+    className: 'video-control-menus hint--top hint--rounded',
+    unselectedClassName: 'video-cut',
+    selectedClassName: 'video-cut-selected video-control-menus-selected',
+    mark: 'cutVideo',
+    ariaLabel: '视频裁剪'
+  },
   {
     className: 'video-control-menus hint--top hint--rounded',
     unselectedClassName: 'video-cut-mark',
@@ -41,13 +41,13 @@ const menus = [
     mark: 'image',
     ariaLabel: '图片水印'
   },
-  {
-    className: 'video-control-menus hint--top hint--rounded',
-    unselectedClassName: 'video-voice',
-    selectedClassName: 'video-voice-selected video-control-menus-selected',
-    mark: 'voice',
-    ariaLabel: '人工配音'
-  }
+  // {
+  //   className: 'video-control-menus hint--top hint--rounded',
+  //   unselectedClassName: 'video-voice',
+  //   selectedClassName: 'video-voice-selected video-control-menus-selected',
+  //   mark: 'voice',
+  //   ariaLabel: '人工配音'
+  // }
 ]
 type Selected_Menu = 'volume' | 'cutMark' | 'cutVideo' | 'speed' | 'text' | 'image' | 'voice'
 
