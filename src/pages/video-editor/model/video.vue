@@ -94,11 +94,6 @@ const initFabric = () => {
   })
   data.rect.setControlsVisibility({
     mtr: false,
-    bl: false,
-    tl: false,
-    mt: false,
-    ml: false,
-    tr: false
   });
   data.rect.selectable = false
   data.canvas.add(data.rect);
@@ -134,7 +129,7 @@ const disposeCurMarkEvent = () => {
 const initCanvasEvent = () => {
   const target = data.canvas as fabric.Canvas
   target.on("object:moving", e => displayMoveArea(e))
-  // target.on("object:scaling",e => displayScalingArea(e))
+  target.on("object:modified",e => displayScalingArea(e))
 }
 
 /**
@@ -190,16 +185,26 @@ const mouseUpCreateFabricRect = () => {
 const displayScalingArea = (e: any) => {
   const padding = 5
   const target = e.target
-  target.setCoords()
-  const { left, top, height, width } = target.getBoundingRect()
-  const {width: canvasWidth, height: canvasHeight} = target.canvas
-  const targetX = left + width
-  const targetY = top + height
-  const maxX = canvasWidth - padding
-  const maxY = canvasHeight - padding
-  if (targetX > maxX || targetY > maxY) {
-    target.scaleY = Math.min(1, width/(canvasWidth - padding * 2) )
-    target.scaleX = Math.min(1, height/(canvasHeight - padding * 2) )
+  const { left, top, width, height } = target.getBoundingRect()
+  const maxLength = data.canvas.getWidth() - padding
+  const maxHeight = data.canvas.getHeight() - padding
+  if (left < padding) {
+    const currentX = width - Math.abs(left) - padding
+    target.set('left', padding)
+    target.set('scaleX', currentX / (data.canvas.getWidth() - padding * 2))
+  }
+  if (top < padding) {
+    const currentY = height - Math.abs(top) - padding
+    target.set('top', padding)
+    target.set('scaleY', currentY / (data.canvas.getHeight() - padding * 2))
+  }
+  if (top + height > maxHeight) {
+    const currentY = (top + height) - maxHeight
+    target.set('scaleY', (height - currentY) / (data.canvas.getHeight() - padding * 2))
+  }
+  if (left + width > maxLength) {
+    const currentX = (left + width) - maxLength
+    target.set('scaleX', (width - currentX) / (data.canvas.getWidth() - padding * 2))
   }
 }
 
