@@ -49,6 +49,7 @@
           <Volume v-if="data.selectedMenu === 'volume'" :changeVolume="changeVideoVolume"/>
           <CurMarkGroup v-if="data.selectedMenu === 'cutMark'" />
           <VoiceRecorder v-if="data.selectedMenu === 'voice'" />
+          <TextControl v-if="data.selectedMenu === 'text'" />
         </div>
       </div>
     </div>
@@ -62,7 +63,8 @@ import Speed from '@/components/solider/speed.vue'
 import Volume from '@/components/solider/volume.vue'
 import VideoRef from './video.vue'
 import CurMarkGroup from './cutMarkGourp'
-import VoiceRecorder from '@/components/voice-recorder/voice-recorder'
+import TextControl from './text-control'
+import VoiceRecorder from './voice-recorder.vue'
 import { useUserStore } from "@/store/user"
 import { menus, Selected_Menu } from "./Menus"
 

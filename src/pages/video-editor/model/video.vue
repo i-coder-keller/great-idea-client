@@ -315,7 +315,6 @@ const createText = (e: any) => {
     mt: false,
     mb: false
   });
-  console.log(text.value)
   data.canvas.add(text.value)
 }
 /**
